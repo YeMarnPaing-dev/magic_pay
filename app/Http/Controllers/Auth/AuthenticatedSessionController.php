@@ -28,7 +28,13 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-         dd('Hi ! This is Testing');
+        if($request->user()->role == 'admin' || $request->user()->role =='superadmin' ){
+            // dd($request->user());
+            return to_route('admin#login');
+          }else{
+            return to_route('user#login');
+          }
+
     }
 
     /**
