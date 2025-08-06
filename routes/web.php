@@ -18,11 +18,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::group(['prefix'=>'User'],function(){
+    Route::group(['prefix'=>'user','middleware'=>'usermiddleware'],function(){
     Route::get('user',[LoginController::class,'user'])->name('user#login');
     });
 
-     Route::group(['prefix'=>'Admin'],function(){
+     Route::group(['prefix'=>'admin','middleware'=>'adminmiddleware'],function(){
     Route::get('admin',[AdminController::class,'admin'])->name('admin#login');
     });
 
