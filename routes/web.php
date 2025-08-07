@@ -24,6 +24,8 @@ Route::middleware('auth')->group(function () {
 
      Route::group(['prefix'=>'admin','middleware'=>'adminmiddleware'],function(){
     Route::get('admin',[AdminController::class,'admin'])->name('admin#login');
+    Route::resource('admin-user', AdminController::class);
+    Route::get('admin-user/datatable/ssd',[AdminController::class,'ssd']);
     });
 
 
