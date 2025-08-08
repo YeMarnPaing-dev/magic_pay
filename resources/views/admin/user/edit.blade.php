@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
-@section('title','Create-Admin-Users')
-@section('admin-user-active','mm-active')
+@section('title','Edit-Users')
+@section('user-active','mm-active')
 @section('content')
 
   <div class="app-page-title">
@@ -10,7 +10,7 @@
                                         <i class="pe-7s-users icon-gradient bg-mean-fruit">
                                         </i>
                                     </div>
-                                    <div>Create-Admin-Users</div>
+                                    <div>Edit-Users</div>
                                 </div>
                                  </div>
                         </div>
@@ -21,32 +21,32 @@
                             <div class="card">
                                 <div class="card-body">
                                     @include('admin.layouts.flash')
-                                    <form action="{{route('admin-user.store')}}" method="POST" id="create">
+                                    <form action="{{route('admin-user.update', $admin_user->id)}}"  method="POST" id="update">
                                         @csrf
+                                          @method('PUT')
                                         <div class="form-group">
                                             <label for="">Name</label>
-                                            <input type="text" name="name" class="form-control" >
+                                            <input type="text" name="name" class="form-control" value="{{$admin_user->name}}">
                                         </div>
 
                                         <div class="form-group">
                                             <label for="">Email</label>
-                                            <input type="email" name="email" class="form-control">
+                                            <input type="email" name="email" class="form-control" value="{{$admin_user->email}}">
                                         </div>
 
                                         <div class="form-group">
                                             <label for="">Phone</label>
-                                            <input type="number" name="phone" class="form-control">
+                                            <input type="number" name="phone" class="form-control" value="{{$admin_user->phone}}">
                                         </div>
 
                                         <div class="form-group">
                                             <label for="">Password</label>
-                                            <input type="password" name="password" class="form-control">
+                                            <input type="password" name="password" class="form-control" >
                                         </div>
-                                        <input type="hidden" name="role" value="admin">
 
                                         <div class="d-flex justify-content-center">
                                             <button class="btn btn-secondary mr-2 back-btn">Cancel</button>
-                                            <button type="submit" class="btn btn-primary">Confirm</button>
+                                            <button type="submit" class="btn btn-primary">Update</button>
                                         </div>
                                     </form>
 
@@ -58,7 +58,7 @@
 @endsection
 
 @section('script')
-{!! JsValidator::formRequest('App\Http\Requests\StoreAdminUser','#create') !!}
+{!! JsValidator::formRequest('App\Http\Requests\UpdateUser','#update') !!}
 
 <script>
 

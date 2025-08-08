@@ -6,24 +6,22 @@ use Carbon\Carbon;
 use App\Models\User;
 use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreUser;
+use App\Http\Requests\UpdateUser;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreAdminUser;
 use App\Http\Requests\UpdateAdminUser;
 use Yajra\DataTables\Facades\DataTables;
 
-class AdminController extends Controller
+class UserController extends Controller
 {
-     public function admin(){
-        return view('admin.admin');
-    }
 
     public function index(){
-
-        return view('admin.admin_user.index');
+        return view('admin.user.index');
     }
 
     public function ssd(){
-      $data = User::whereIn('role', ['superadmin', 'admin'])->get();
+      $data = User::where('role', 'user')->get();
 
       return DataTables::of($data)
       ->editColumn('user_agent', function($each){
@@ -54,7 +52,7 @@ class AdminController extends Controller
         return Carbon::parse($each->updated_at)->format('Y-m-d H:i:s');
       })
       ->addColumn('action',function($each){
-          $edit_icon = '<a href="'.route('admin-user.edit', $each->id).'" class="text-warning" ><i class="fa-solid fa-pen-to-square"></i></a>';
+          $edit_icon = '<a href="'.route('user.edit', $each->id).'" class="text-warning" ><i class="fa-solid fa-pen-to-square"></i></a>';
           $delete_icon = '<a href="" class="text-danger delete" data-id="'.$each->id.'"><i class="fa-solid fa-trash "></i></a>';
 
           return $edit_icon . $delete_icon;
@@ -65,27 +63,27 @@ class AdminController extends Controller
     }
 
     public function create(){
-       return view('admin.admin_user.create');
+       return view('admin.user.create');
     }
 
-    public function store(StoreAdminUser $request){
+    public function store(StoreUser $request){
 
         $admin_user = new User();
         $admin_user->name = $request->name;
         $admin_user->email = $request->email;
         $admin_user->phone = $request->phone;
-        $admin_user->role = 'admin';
+        $admin_user->role = 'user';
         $admin_user->password = Hash::make($request->password);
         $admin_user->save();
-        return redirect()->route('admin-user.index')->with('create','Successfully Created');
+        return redirect()->route('user.index')->with('create','Successfully Created');
     }
 
     public function edit($id){
       $admin_user = User::findorFail($id);
-      return view('admin.admin_user.edit',compact('admin_user'));
+      return view('admin.user.edit',compact('admin_user'));
     }
 
-    public function update($id, UpdateAdminUser $request){
+    public function update($id, UpdateUser $request){
 
          $admin_user = User::findorFail($id);
         $admin_user->name = $request->name;
@@ -93,7 +91,7 @@ class AdminController extends Controller
         $admin_user->phone = $request->phone;
         $admin_user->password = $request->password ? Hash::make($request->password) : $admin_user->password;
         $admin_user->update();
-        return redirect()->route('admin-user.index')->with('update','Successfully Updated');
+        return redirect()->route('user.index')->with('update','Successfully Updated');
     }
 
     public function destroy($id){

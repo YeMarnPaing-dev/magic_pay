@@ -1,6 +1,6 @@
 @extends('admin.layouts.app')
 @section('title', 'User-List')
-@section('admin-user-active', 'mm-active')
+@section('user-active', 'mm-active')
 @section('content')
 
     <div class="app-page-title">
@@ -10,13 +10,13 @@
                     <i class="pe-7s-users icon-gradient bg-mean-fruit">
                     </i>
                 </div>
-                <div>Admin-Users</div>
+                <div>Users</div>
             </div>
         </div>
     </div>
 
     <div class="py-3">
-        <a href="{{ route('admin-user.create') }}" class="btn btn-primary"><i class="fas fa-plus-circle mr-1"></i>Create Admin
+        <a href="{{ route('user.create') }}" class="btn btn-primary"><i class="fas fa-plus-circle mr-1"></i>Create Users
         </a>
     </div>
 
@@ -57,7 +57,7 @@
     <script>
         $(document).ready(function() {
             var table = new DataTable('.Datatable', {
-                ajax: '/admin/admin-user/datatable/ssd',
+                ajax: '/admin/user/datatable/ssd',
                 processing: true,
                 serverSide: true,
                 columns: [{
@@ -121,7 +121,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            url: '/admin/admin-user/' + id,
+                            url: '/admin/user/' + id,
                             type: 'DELETE',
                             success: function() {
                                 table.ajax.reload();

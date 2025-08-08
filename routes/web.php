@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -26,6 +27,11 @@ Route::middleware('auth')->group(function () {
     Route::get('admin',[AdminController::class,'admin'])->name('admin#login');
     Route::resource('admin-user', AdminController::class);
     Route::get('admin-user/datatable/ssd',[AdminController::class,'ssd']);
+
+    Route::resource('user', UserController::class);
+    Route::get('user/datatable/ssd',[UserController::class,'ssd']);
+
+
     });
 
 

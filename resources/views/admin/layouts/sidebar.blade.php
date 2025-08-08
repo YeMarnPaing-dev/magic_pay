@@ -45,6 +45,13 @@
                                         Admin User Management
                                     </a>
                                 </li>
+
+                                 <li>
+                                    <a href="{{route('user.index')}}" class="@yield('user-active')">
+                                        <i class="metismenu-icon pe-7s-users"></i>
+                                         User Management
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
