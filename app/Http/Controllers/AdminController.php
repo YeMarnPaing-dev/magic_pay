@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
-use Illuminate\Http\Request;
 use Jenssegers\Agent\Agent;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreAdminUser;
 use App\Http\Requests\UpdateAdminUser;
@@ -22,7 +23,7 @@ class AdminController extends Controller
     }
 
     public function ssd(){
-      $data = User::all();
+      $data = User::query();
 
       return DataTables::of($data)
       ->editColumn('user_agent', function($each){
@@ -45,6 +46,12 @@ class AdminController extends Controller
         ";}
 
         return '-';
+      })
+      ->editColumn('created_at',function($each){
+        return Carbon::parse($each->created_at)->format('Y-m-d H:i:s');
+      })
+      ->editColumn('updated_at',function($each){
+        return Carbon::parse($each->updated_at)->format('Y-m-d H:i:s');
       })
       ->addColumn('action',function($each){
           $edit_icon = '<a href="'.route('admin-user.edit', $each->id).'" class="text-warning" ><i class="fa-solid fa-pen-to-square"></i></a>';
