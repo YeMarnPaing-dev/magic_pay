@@ -14,16 +14,16 @@ Route::get('/', function () {
 //     return view('dashboard');
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
+ Route::group(['prefix'=>'user','middleware'=>'usermiddleware'],function(){
+    Route::get('user',[LoginController::class,'user'])->name('user#login');
+    });
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    Route::group(['prefix'=>'user','middleware'=>'usermiddleware'],function(){
-    Route::get('user',[LoginController::class,'user'])->name('user#login');
-    });
-
-     Route::group(['prefix'=>'admin','middleware'=>'adminmiddleware'],function(){
+    Route::group(['prefix'=>'admin','middleware'=>'adminmiddleware'],function(){
     Route::get('admin',[AdminController::class,'admin'])->name('admin#login');
     Route::resource('admin-user', AdminController::class);
     Route::get('admin-user/datatable/ssd',[AdminController::class,'ssd']);
