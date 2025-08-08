@@ -7,6 +7,8 @@
     <meta http-equiv="Content-Language" content="en">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <meta name="viewport"
         content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, shrink-to-fit=no" />
 
@@ -20,6 +22,7 @@
     <link rel="stylesheet" href="{{ asset('admin/css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap4.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
     <!--
     =========================================================
     * ArchitectUI HTML Theme Dashboard - v1.0.0
@@ -70,7 +73,7 @@
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/js/bootstrap.min.js"></script> --}}
 <script src="https://cdn.datatables.net/2.3.2/js/dataTables.js"></script>
 <script src="https://cdn.datatables.net/2.3.2/js/dataTables.bootstrap4.js"></script>
 
@@ -82,6 +85,18 @@
 
 <script>
     $(document).ready(function() {
+        let token = document.head.querySelector('meta[name="csrf-token"]');
+
+        if (token) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': token.content
+                }
+            });
+        } else {
+            console.error('CSRF token not found in <meta> tag.');
+        }
+
         $('.back-btn').on('click', function() {
             window.history.go(-1);
             return false;
@@ -99,11 +114,18 @@
             }
         });
 
-        @if(session('create'))
-        Toast.fire({
-            icon: "success",
-            title:" {{session('create')}}"
-        });
+        @if (session('create'))
+            Toast.fire({
+                icon: "success",
+                title: " {{ session('create') }}"
+            });
+        @endif
+
+        @if (session('update'))
+            Toast.fire({
+                icon: "success",
+                title: " {{ session('update') }}"
+            });
         @endif
     })
 </script>

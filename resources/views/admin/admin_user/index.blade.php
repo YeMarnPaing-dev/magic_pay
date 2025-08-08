@@ -16,7 +16,7 @@
                         </div>
 
                         <div class="py-3">
-                            <a href="{{route('admin-user.create')}}" class="btn btn-primary"><i class="fas fa-plus-circle px-1"></i>Create Admin User</a>
+                            <a href="{{route('admin-user.create')}}" class="btn btn-primary"><i class="fas fa-plus-circle mr-1"></i>Create Admin </a>
                         </div>
 
                         <div class="content">
@@ -29,6 +29,10 @@
                                                 <th>Name</th>
                                             <th>Email</th>
                                             <th>Phone</th>
+                                            <th>IP</th>
+                                            <th>User_Agent</th>
+                                            <th>Action</th>
+
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -49,7 +53,7 @@
 <script>
 
 $(document).ready(function(){
-new DataTable('.Datatable',{
+var table = new DataTable('.Datatable',{
     ajax: '/admin/admin-user/datatable/ssd',
     processing: true,
     serverSide: true,
@@ -66,7 +70,52 @@ new DataTable('.Datatable',{
             data: "phone",
             name: "phone"
         },
+         {
+            data: "ip",
+            name: "ip"
+        },
+         {
+            data: "user_agent",
+            name: "user_agent",
+            sortable:false,
+            searchable:false
+        },
+        {
+            data: "action",
+            name: "action",
+            sortable:false,
+            searchable:false
+        },
     ]
+});
+
+$(document).on('click','.delete',function(e){
+    e.preventDefault();
+    var id = $(this).data('id');
+   Swal.fire({
+  title: "Are you sure?",
+  text: "You won't be able to revert this!",
+  icon: "warning",
+  showCancelButton: true,
+  confirmButtonColor: "#3085d6",
+  cancelButtonColor: "#d33",
+  confirmButtonText: "Yes, delete it!"
+}).then((result) => {
+  if (result.isConfirmed) {
+    $.ajax({
+        url: '/admin/admin-user/' + id,
+        type: 'DELETE',
+        success: function(){
+          table.ajax.reload();
+        }
+    });
+    // Swal.fire({
+    //   title: "Deleted!",
+    //   text: "Your file has been deleted.",
+    //   icon: "success"
+    // });
+  }
+});
 });
 });
 

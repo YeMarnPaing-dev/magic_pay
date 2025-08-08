@@ -72,6 +72,7 @@
                                           alt="">
                                       <i class="fa fa-angle-down ml-2 opacity-8"></i>
                                   </a>
+
                                   <div tabindex="-1" role="menu" aria-hidden="true"
                                       class="dropdown-menu dropdown-menu-right">
                                       <button type="button" tabindex="0" class="dropdown-item">User Account</button>
@@ -81,6 +82,7 @@
                                           <button type="submit" tabindex="0" class="dropdown-item">Logout</button>
                                       </form>
                                   </div>
+
                               </div>
                           </div>
                           <div class="widget-content-left  ml-3 header-user-info">
@@ -91,11 +93,11 @@
                                   {{ Auth::user()->role }}
                               </div>
                           </div>
-                          <div class="widget-content-right header-user-info ml-3">
+                          {{-- <div class="widget-content-right header-user-info ml-3">
                               <button type="button" class="btn-shadow p-1 btn btn-primary btn-sm show-toastr-example">
                                   <i class="fa text-white fa-calendar pr-1 pl-1"></i>
                               </button>
-                          </div>
+                          </div> --}}
                       </div>
                   </div>
               </div>

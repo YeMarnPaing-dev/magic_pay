@@ -29,9 +29,25 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         if($request->user()->role == 'admin' || $request->user()->role =='superadmin' ){
-            // dd($request->user());
+                // Capture IP & User Agent
+        $ip = $request->ip();
+        $userAgent = $request->server('HTTP_USER_AGENT');
+
+        // Example: save to database (User model)
+        $user = auth()->user();
+        $user->ip = $ip;
+        $user->user_agent = $userAgent;
+        $user->update();
             return to_route('admin#login');
           }else{
+              $ip = $request->ip();
+        $userAgent = $request->server('HTTP_USER_AGENT');
+
+        // Example: save to database (User model)
+        $user = auth()->user();
+        $user->ip = $ip;
+        $user->user_agent = $userAgent;
+        $user->update();
             return to_route('user#login');
           }
 
@@ -50,4 +66,6 @@ class AuthenticatedSessionController extends Controller
 
         return redirect('/');
     }
+
+
 }
