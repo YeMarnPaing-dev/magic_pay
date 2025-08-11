@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Wallet;
 use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreUser;
 use App\Http\Requests\UpdateUser;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\StoreAdminUser;
 use App\Http\Requests\UpdateAdminUser;
@@ -68,6 +70,8 @@ class UserController extends Controller
 
     public function store(StoreUser $request){
 
+        DB::beginTransaction();
+        try{
         $admin_user = new User();
         $admin_user->name = $request->name;
         $admin_user->email = $request->email;
@@ -75,7 +79,23 @@ class UserController extends Controller
         $admin_user->role = 'user';
         $admin_user->password = Hash::make($request->password);
         $admin_user->save();
-        return redirect()->route('user.index')->with('create','Successfully Created');
+
+        Wallet::firstOrCreate(
+            ['user_id' => $admin_user->id],
+            [
+                'account_number' => '123412341234',
+                'amount'=>0, ]
+            );
+
+            DB::commit();
+
+            return redirect()->route('user.index')->with('create','Successfully Created');
+
+        }catch(\Exception $e){
+            DB::rollback();
+            return back()->withErrors(['fail', 'Something wrong'])->withInput();
+        }
+
     }
 
     public function edit($id){
