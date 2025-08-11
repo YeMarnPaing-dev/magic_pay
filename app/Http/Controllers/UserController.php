@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\Wallet;
 use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
+use App\Helpers\UUIDGenerate;
 use App\Http\Requests\StoreUser;
 use App\Http\Requests\UpdateUser;
 use Illuminate\Support\Facades\DB;
@@ -83,7 +84,7 @@ class UserController extends Controller
         Wallet::firstOrCreate(
             ['user_id' => $admin_user->id],
             [
-                'account_number' => '123412341234',
+                'account_number' => UUIDGenerate::accountNumber(),
                 'amount'=>0, ]
             );
 
@@ -105,13 +106,31 @@ class UserController extends Controller
 
     public function update($id, UpdateUser $request){
 
+        DB::beginTransaction();
          $admin_user = User::findorFail($id);
         $admin_user->name = $request->name;
         $admin_user->email = $request->email;
         $admin_user->phone = $request->phone;
         $admin_user->password = $request->password ? Hash::make($request->password) : $admin_user->password;
         $admin_user->update();
-        return redirect()->route('user.index')->with('update','Successfully Updated');
+
+         Wallet::firstOrCreate(
+            ['user_id' => $admin_user->id],
+            [
+                'account_number' => UUIDGenerate::accountNumber(),
+                'amount'=>0, ]
+            );
+
+            DB::commit();
+
+            return redirect()->route('user.index')->with('update','Successfully Updated');
+
+        try{
+        }catch(\Exception $e){
+             DB::rollback();
+            return back()->withErrors(['fail', 'Something wrong'])->withInput();
+        }
+
     }
 
     public function destroy($id){
