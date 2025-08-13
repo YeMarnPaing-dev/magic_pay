@@ -1,10 +1,11 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\WalletController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\UserController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -30,6 +31,9 @@ Route::middleware('auth')->group(function () {
 
     Route::resource('user', UserController::class);
     Route::get('user/datatable/ssd',[UserController::class,'ssd']);
+
+    Route::get('wallet',[WalletController::class,'index'])->name('wallet.index');
+    Route::get('wallet/datatable/ssd',[WalletController::class,'ssd']);
 
 
     });

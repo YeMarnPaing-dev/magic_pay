@@ -52,6 +52,13 @@
                                          User Management
                                     </a>
                                 </li>
+
+                                 <li>
+                                    <a href="{{route('wallet.index')}}" class="@yield('admin-wallet-active')">
+                                        <i class="metismenu-icon pe-7s-wallet"></i>
+                                         Wallet
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </div>
