@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UserProfileController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -17,6 +18,7 @@ Route::get('/', function () {
 
  Route::group(['prefix'=>'user','middleware'=>'usermiddleware'],function(){
     Route::get('user',[LoginController::class,'user'])->name('user#login');
+    Route::get('profile',[UserProfileController::class,'profile'])->name('profile#user');
 
     });
 

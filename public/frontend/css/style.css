@@ -1,75 +1,85 @@
-/* bottom bar  */
+body {
+    margin: 0;
+    font-family: "Open Sans", sans-serif;
+    background-color: #f4f4f9;
 
-body{
-    background:linear-gradient(to right, gray, gray);
-    font-size: 15px;
 }
 
+/* Header */
+.header-menu {
+   position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 999;
+    background: rgba(255, 255, 255, 0.9); /* slightly see-through */
+    backdrop-filter: blur(6px); /* nice blur effect */
+    padding: 12px 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+.header-menu h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 600;
+    color: #222;
+}
+.header-menu a {
+    color: #555;
+    text-decoration: none;
+    font-size: 20px;
+}
+.header-menu a:hover {
+    color: #5842E3;
+}
 
-    .bottom-menu{
-        background-color: white;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
-    }
+/* Bottom Navigation */
+.bottom-menu {
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    background: #ffffff;
+    padding: 6px 0;
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+.bottom-menu a {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #555;
+    text-decoration: none;
+    font-size: 12px;
+    transition: color 0.3s ease;
+    display: block;
+}
+.bottom-menu a:hover {
+    color: #5842E3;
+}
+.bottom-menu i {
+    font-size: 22px;
+    margin-bottom: 2px;
+}
 
-    .bottom-menu a{
-        text-decoration: none;
-        color: #333;
-    }
+/* Content */
+.content {
+    margin-top: 30px;
+    padding: 20px 15px;
+}
 
-    .bottom-menu a:hover{
-        color: #5842E3;
-        transition: .3s;
-    }
+/* Profile  */
+.account .profile {
+    text-align: center;
+}
 
-
-    .bottom-menu i{
-        margin-top: 15px;
-        font-size: 20px;
-    }
-
-    .bottom-menu p{
-
-        margin-bottom:12px
-    }
-
-
-
-/* header menu  */
-
-    .header-menu{
-        background-color: white;
-        position: fixed;
-        header: 0;
-        left: 0;
-        right: 0;
-        padding-top: 12px;
-        padding-bottom: 12px;
-        margin-bottom: 0;
-    }
-
-    .header-menu a{
-        text-decoration: none;
-        color: #333;
-    }
-
-    .header-menu a:hover{
-        color: #5842E3;
-        transition: .3s;
-    }
-
-
-    .header-menu i{
-        margin-top: 15px;
-        font-size: 20px;
-    }
-
-    .header-menu h3{
-        font-size: 22px;
-        margin-top: 15px;
-
-    }
-
-
+.account .profile img{
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+    padding: 5px;
+    border: 1px solid #ddd;
+    background: #fff;
+}
+.account .card {
+    border-radius: 10px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.09);
+}
