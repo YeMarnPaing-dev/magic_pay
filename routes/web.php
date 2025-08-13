@@ -17,6 +17,7 @@ Route::get('/', function () {
 
  Route::group(['prefix'=>'user','middleware'=>'usermiddleware'],function(){
     Route::get('user',[LoginController::class,'user'])->name('user#login');
+
     });
 
 Route::middleware('auth')->group(function () {

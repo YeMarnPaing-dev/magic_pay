@@ -1,18 +1,12 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>User Account</title>
-</head>
-<body>
-    <h1>Hi This is user</h1>
+@extends('user.layouts.app_plain')
+@section('title', 'Magic Pay')
 
- <form action="{{route('logout')}}" method="post">
-   @csrf
- <input type="submit" value="Logout"
-  >
-   </form>
-</body>
-</html>
+@section('content')
+
+<div class="container">
+    <div class="row justify-content-center">
+        <h3>Home Page</h3>
+    </div>
+</div>
+
+@endsection

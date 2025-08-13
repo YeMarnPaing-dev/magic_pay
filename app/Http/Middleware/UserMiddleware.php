@@ -16,9 +16,11 @@ class UserMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-         if(Auth::user()->role == 'user'){
+       if(Auth::user()->role == 'user' ) {
+            // Allow the request to proceed
             return $next($request);
-        }else{
+
+        }else {
             return abort(404);
         }
     }
