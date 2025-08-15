@@ -68,9 +68,33 @@
 
     <!-- Bottom Menu -->
     <div class="bottom-menu">
-        <a href="" class="scan-tab">
-            <div class="inside">
-                <i class="fa-solid fa-qrcode"></i>
+        <a href="" class="scan" style=" width: 60px;
+    height: 60px;
+    background: #5842E3;
+    border-radius:100%;
+    position:fixed;
+    bottom:40px;
+    right:0;
+    left:0;
+    margin:0 auto;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    ">
+            <div class="inside" style="
+           width: 52px;
+    height: 52px;
+    background: #fff;
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+     "
+
+
+    >
+                <i style="margin:0;" class="fa-solid fa-qrcode"></i>
             </div>
         </a>
         <div class="row justify-content-center">
