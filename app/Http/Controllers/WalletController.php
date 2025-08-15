@@ -5,12 +5,14 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables;
 
 
 class WalletController extends Controller
 {
    public function index(){
+
     return view('admin.wallet.index');
    }
 

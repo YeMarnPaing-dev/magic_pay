@@ -119,12 +119,13 @@ class UserController extends Controller
         $admin_user->update();
 
          // ✅ Create wallet only if missing
-        if (!$admin_user->wallet) {
-            $admin_user->wallet()->create([
-                'account_number' => UUIDGenerate::accountNumber(),
-                'amount' => 0,
-            ]);
-        }
+    Wallet::firstOrCreate(
+    ['user_id' => $admin_user->id],
+    [
+        'account_number' => UUIDGenerate::accountNumber(),
+        'amount' => 0,
+    ]
+);
 
         DB::commit();
 
