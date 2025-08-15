@@ -104,34 +104,41 @@ class UserController extends Controller
       return view('admin.user.edit',compact('admin_user'));
     }
 
-    public function update($id, UpdateUser $request){
-
+   public function update($id, UpdateUser $request)
+{
+    try {
         DB::beginTransaction();
-         $admin_user = User::findorFail($id);
+
+        $admin_user = User::findOrFail($id);
         $admin_user->name = $request->name;
         $admin_user->email = $request->email;
         $admin_user->phone = $request->phone;
-        $admin_user->password = $request->password ? Hash::make($request->password) : $admin_user->password;
+        $admin_user->password = $request->password
+            ? Hash::make($request->password)
+            : $admin_user->password;
         $admin_user->update();
 
-         Wallet::firstOrCreate(
-            ['user_id' => $admin_user->id],
-            [
+         // ✅ Create wallet only if missing
+        if (!$admin_user->wallet) {
+            $admin_user->wallet()->create([
                 'account_number' => UUIDGenerate::accountNumber(),
-                'amount'=>0, ]
-            );
-
-            DB::commit();
-
-            return redirect()->route('user.index')->with('update','Successfully Updated');
-
-        try{
-        }catch(\Exception $e){
-             DB::rollback();
-            return back()->withErrors(['fail', 'Something wrong'])->withInput();
+                'amount' => 0,
+            ]);
         }
 
+        DB::commit();
+
+        return redirect()
+            ->route('user.index')
+            ->with('update', 'Successfully Updated');
+
+    } catch (\Exception $e) {
+        DB::rollBack();
+        return back()
+            ->withErrors(['fail' => 'Something went wrong.'])
+            ->withInput();
     }
+}
 
     public function destroy($id){
         $admin_user = User::findorFail($id);

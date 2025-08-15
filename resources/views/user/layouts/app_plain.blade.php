@@ -15,7 +15,7 @@
 
 
 
-    <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
+
 
     @yield('extra_css')
 
@@ -28,6 +28,8 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
         rel="stylesheet">
+
+        <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
 </head>
 
 <body style="background: #ebeaf4">
@@ -113,7 +115,7 @@
                         </a>
                     </div>
                     <div class="col-3">
-                        <a href="">
+                        <a href="{{route('user#wallet')}}">
                            <i class="fa-solid fa-wallet"></i>
                             <p>Wallet</p>
                         </a>

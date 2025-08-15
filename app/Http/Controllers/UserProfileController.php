@@ -33,4 +33,9 @@ class UserProfileController extends Controller
 
          return back()->withErrors(['fail' => 'The old password is not correct password'])->withInput();
     }
+
+    public function wallet(){
+        $authUser = Auth::guard('web')->user();
+        return view('user.wallet',compact('authUser'));
+    }
 }

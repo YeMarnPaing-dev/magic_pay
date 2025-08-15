@@ -22,6 +22,8 @@ Route::get('/', function () {
     Route::get('update-password',[UserProfileController::class,'update'])->name('update#password');
     Route::post('update-password',[UserProfileController::class,'store'])->name('password#store');
 
+    Route::get('wallet',[UserProfileController::class,'wallet'])->name('user#wallet');
+
     });
 
 Route::middleware('auth')->group(function () {
