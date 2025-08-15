@@ -19,6 +19,8 @@ Route::get('/', function () {
  Route::group(['prefix'=>'user','middleware'=>'usermiddleware'],function(){
     Route::get('user',[LoginController::class,'user'])->name('user#login');
     Route::get('profile',[UserProfileController::class,'profile'])->name('profile#user');
+    Route::get('update-password',[UserProfileController::class,'update'])->name('update#password');
+    Route::post('update-password',[UserProfileController::class,'store'])->name('password#store');
 
     });
 

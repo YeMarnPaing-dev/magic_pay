@@ -126,9 +126,8 @@
                 icon: "success",
                 title: " {{ session('update') }}"
             });
-        @endif
-    })
-</script>
+
+        });
 
 
 @yield('script')

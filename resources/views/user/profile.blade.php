@@ -31,24 +31,66 @@
         <div class="card mb-3">
             <div class="card-body pr-0">
                 <div class="d-flex justify-content-between">
-                    <span>Update Password</span>
-                    <span class="mr-3"><i class="fa-solid fa-angles-right"></i></span>
+
+                     <span>Update Password</span>
+                    <span class="mr-3">
+                      <a href="{{route('update#password')}}">  <i style="color: #555; text-decoration:none;" class="fa-solid fa-angles-right">
+                        </i></a>
+                    </span>
+
                 </div>
                 <hr>
-                <div class="d-flex justify-content-between align-items-center">
+                <div class="d-flex justify-content-between align-items-center ">
                     <span>Logout</span>
-                    <form action="{{ route('logout') }}" method="POST" class="m-0 p-0">
-                        @csrf
-                        <button type="submit"
-                         style="background:none; border:none; margin-right:5px; cursor:pointer; color:inherit;" >
-                            <i class="fa-solid fa-arrow-right-from-bracket"></i>
-                        </button>
-                    </form>
+                    <button type="submit"
+                        style="background:none; border:none; margin-right:5px; cursor:pointer; color:inherit;">
+                        <i class="logout fa-solid fa-arrow-right-from-bracket"></i>
+                    </button>
+
                 </div>
                 <hr>
 
             </div>
         </div>
     </div>
+
+@endsection
+
+@section('script')
+
+    <script>
+  $(document).ready(function () {
+    $(document).on('click', '.logout', function (e) {
+        e.preventDefault();
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You will be logged out of your account.",
+            icon: "warning",
+            showCancelButton: true,
+            reverseButtons:true,
+            confirmButtonColor: "#5842E3",
+            cancelButtonColor: "#555",
+            confirmButtonText: "Yes, Logout!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "{{ route('logout') }}",
+                    type: "POST",
+                    data: {
+                        _token: "{{ csrf_token() }}"
+                    },
+                    success: function () {
+                        window.location.href = "{{ route('login') }}";
+                    },
+                    error: function () {
+                        Swal.fire("Error", "Logout failed. Please try again.", "error");
+                    }
+                });
+            }
+        });
+    });
+});
+    </script>
 
 @endsection

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -14,7 +15,7 @@
 
 
 
-    <link rel="stylesheet" href="{{asset('frontend/css/style.css')}}">
+    <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
 
     @yield('extra_css')
 
@@ -23,23 +24,32 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
 
     {{-- google fonts  --}}
- <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap"
+        rel="stylesheet">
 </head>
+
 <body style="background: #ebeaf4">
 
 
     <!-- Header -->
-    <div class="header-menu" >
-        <div class="row justify-content-center">
+    <div class="header-menu">
+        <div class="d-flex justify-content-center">
             <div class="col-md-8">
                 <div class="row align-items-center">
-                    <div class="col-4 text-center"></div>
-                    <div class="col-4 text-center">
+                    <div class="col-2 text-center">
+                        @if (!request()->is('user/user'))
+                            <a href="javascript:void(0);" class="back-btn">
+                                <i class="fa-solid fa-backward"></i>
+                            </a>
+                        @endif
+
+                    </div>
+                    <div class="col-8 text-center">
                         <h3>@yield('title')</h3>
                     </div>
-                    <div class="col-4 text-center">
+                    <div class="col-2 text-center">
                         <a href=""><i class="fa-solid fa-bell"></i></a>
                     </div>
                 </div>
@@ -49,7 +59,7 @@
 
     <!-- Content -->
     <div class="content">
-        <div class="row justify-content-center">
+        <div class="d-flex justify-content-center">
             <div class="col-md-8 " style="margin: 60px 0px">
                 @yield('content')
             </div>
@@ -58,25 +68,36 @@
 
     <!-- Bottom Menu -->
     <div class="bottom-menu">
+        <a href="" class="scan-tab">
+            <div class="inside">
+                <i class="fa-solid fa-qrcode"></i>
+            </div>
+        </a>
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="row text-center">
-                    <div class="col-4">
-                        <a href="{{route('user#login')}}">
+                    <div class="col-3">
+                        <a href="{{ route('user#login') }}">
                             <i class="fa-solid fa-house"></i>
                             <p>Home</p>
                         </a>
                     </div>
-                    <div class="col-4">
+                    <div class="col-3">
                         <a href="">
-                            <i class="fa-solid fa-qrcode"></i>
-                            <p>Scan</p>
+                            <i class="fa-solid fa-arrow-right-arrow-left"></i>
+                            <p>Transaction</p>
                         </a>
                     </div>
-                    <div class="col-4">
-                        <a href="{{route('profile#user')}}">
+                    <div class="col-3">
+                        <a href="">
+                           <i class="fa-solid fa-wallet"></i>
+                            <p>Wallet</p>
+                        </a>
+                    </div>
+                    <div class="col-3">
+                        <a href="{{ route('profile#user') }}">
                             <i class="fa-solid fa-user"></i>
-                            <p>Account</p>
+                            <p>Profile</p>
                         </a>
                     </div>
                 </div>
@@ -87,6 +108,14 @@
 
 
 </body>
+
+
+
+{{-- sweet alert  --}}
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"
+    integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
 <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
@@ -99,4 +128,57 @@
 
 <!-- Laravel Javascript Validation -->
 <script type="text/javascript" src="{{ url('vendor/jsvalidation/js/jsvalidation.js') }}"></script>
+
+<script>
+    $(document).ready(function() {
+        let token = document.head.querySelector('meta[name="csrf-token"]');
+
+        if (token) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': token.content,
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                }
+            });
+        } else {
+            console.error('CSRF token not found in <meta> tag.');
+        }
+
+        const Toast = Swal.mixin({
+            toast: true,
+            position: "top-end",
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.onmouseenter = Swal.stopTimer;
+                toast.onmouseleave = Swal.resumeTimer;
+            }
+        });
+
+        @if (session('create'))
+            Toast.fire({
+                icon: "success",
+                title: " {{ session('create') }}"
+            });
+        @endif
+
+        @if (session('update'))
+            Toast.fire({
+                icon: "success",
+                title: " {{ session('update') }}"
+            });
+        @endif
+
+        $('.back-btn').on('click', function(e) {
+            e.preventDefault();
+            window.history.go(-1);
+            return false;
+        });
+    })
+</script>
+
+@yield('script')
+
 </html>

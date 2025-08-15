@@ -83,3 +83,19 @@ body {
     border-radius: 10px;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.09);
 }
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.09);
+    border: none;
+}
+
+
+/* scan tab  */
+
+.scan-tab{
+    width: 60px;
+    height: 60px;
+    background: red;
+
+}
