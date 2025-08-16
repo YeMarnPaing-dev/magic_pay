@@ -38,4 +38,17 @@ class UserProfileController extends Controller
         $authUser = Auth::guard('web')->user();
         return view('user.wallet',compact('authUser'));
     }
+
+    public function transfer(){
+        $user = Auth::user();
+        return view('user.transfer',compact('user'));
+    }
+
+      public function confirm(Request $request){
+        $to_phone = $request->to_phone;
+        $amount = $request->amount;
+        $description = $request->description;
+        $user = Auth::user();
+        return view('user.confirm',compact('user','to_phone','amount','description'));
+    }
 }

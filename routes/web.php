@@ -23,7 +23,8 @@ Route::get('/', function () {
     Route::post('update-password',[UserProfileController::class,'store'])->name('password#store');
 
     Route::get('wallet',[UserProfileController::class,'wallet'])->name('user#wallet');
-
+    Route::get('transfer',[UserProfileController::class,'transfer'])->name('transer#user');
+    Route::post('transfer/confirm',[UserProfileController::class,'confirm'])->name(('confirm#transfer'));
     });
 
 Route::middleware('auth')->group(function () {

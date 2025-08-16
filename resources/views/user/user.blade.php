@@ -41,7 +41,7 @@
 
                             <span> <img style="width: 25px;height25px;margin-right:8px;" src="{{asset('frontend/image/money-transfer.png')}}" alt=""> Transfer</span>
                             <span class="mr-3">
-                                <a href="">
+                                <a href="{{route('transer#user')}}">
                                     <i style="color: #555; text-decoration:none;" class="fa-solid fa-angles-right"></i>
                                 </a>
                             </span>
