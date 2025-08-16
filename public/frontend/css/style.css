@@ -72,8 +72,8 @@ body {
 }
 
 .account .profile img{
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     border-radius: 100%;
     padding: 5px;
     border: 1px solid #ddd;
