@@ -182,4 +182,17 @@ return response()->json([
      ]);
 
 }
+
+public function transaction(){
+    $authUser = auth()->guard('web')->user();
+    $transactions = transaction::with('user','source')->where('user_id', $authUser->id)->orderBy('created_at','desc')->paginate(5);
+    return view('user.transaction',compact('transactions'));
+}
+
+public function transactionDetail($trx_id){
+    $authUser = auth()->guard('web')->user();
+    $transaction = Transaction::with('user','source')->where('user_id', $authUser->id)->where('trx_id', $trx_id)->first();
+
+    return view('user.transaction_detail',compact('transaction'));
+}
 }

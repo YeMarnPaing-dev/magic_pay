@@ -64,7 +64,7 @@
                                 <img style="width: 25px;height25px;margin-right:8px;" src="{{asset('frontend/image/transaction.png')}}" alt="">
                                 Transcation</span>
                             <span class="mr-3">
-                                <a href="">
+                                <a href="{{route('transaction#list')}}">
                                     <i style="color: #555; text-decoration:none;" class="fa-solid fa-angles-right"></i>
                                 </a>
                             </span>

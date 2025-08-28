@@ -28,6 +28,9 @@ Route::get('/', function () {
     Route::post('transfer/complete',[UserProfileController::class,'transferComplete'])->name(('complete#transfer'));
     Route::get('to-account-verify', [UserProfileController::class,'verify']);
     Route::get('passwordCheck',[UserProfileController::class,'check']);
+
+    Route::get('transaction',[UserProfileController::class,'transaction'])->name('transaction#list');
+    Route::get('transaction/{trx_id}',[UserProfileController::class,'transactionDetail'])->name('transaction#detail');
     });
 
 Route::middleware('auth')->group(function () {
