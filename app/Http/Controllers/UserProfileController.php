@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UpdatePassword;
@@ -113,6 +114,8 @@ public function transferComplete(TransferValidate $request){
             return back()->withErrors(['Fail' => 'Something Wrong.The given data is invalid'])->withInput();
         }
 
+        DB::beginTransaction();
+        try{
         $from_account_wallet = $from_account->wallet;
         $from_account_wallet->decrement('amount', $amount);
         $from_account_wallet->update();
@@ -121,7 +124,16 @@ public function transferComplete(TransferValidate $request){
         $to_account_wallet->increment('amount', $amount);
         $to_account_wallet->update();
 
-        return to_route('profile#user')->with('transfer_success', 'Successfully transfered.');
+        DB::commit();
+       return to_route('profile#user')->with('transfer_success', 'Successfully transfered.');
+        }catch(\Exception $error){
+            DB::rollback();
+            return back()->withErrors(['Fail' => 'Something Wrong' . $error->getMessage()])->withInput();
+        }
+
+
+
+
 }
 
 
