@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Helpers\UUIDGenerate;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -123,6 +125,27 @@ public function transferComplete(TransferValidate $request){
         $to_account_wallet = $to_account->wallet;
         $to_account_wallet->increment('amount', $amount);
         $to_account_wallet->update();
+
+        $ref_no = UUIDGenerate::refNumber();
+        $from_account_transaction = new Transaction();
+        $from_account_transaction->ref_no= $ref_no;
+        $from_account_transaction->trx_id= UUIDGenerate::trxId();
+        $from_account_transaction->user_id= $from_account->id;
+        $from_account_transaction->type= 2;
+        $from_account_transaction->amount= $amount;
+        $from_account_transaction->source_id= $to_account->id;
+        $from_account_transaction->description= $description;
+        $from_account_transaction->save();
+
+        $to_account_transaction = new Transaction();
+        $to_account_transaction->ref_no=  $ref_no;
+        $to_account_transaction->trx_id= UUIDGenerate::trxId();
+        $to_account_transaction->user_id= $to_account->id;
+        $to_account_transaction->type= 1;
+        $to_account_transaction->amount= $amount;
+        $to_account_transaction->source_id= $from_account->id;
+        $to_account_transaction->description= $description;
+        $to_account_transaction->save();
 
         DB::commit();
        return to_route('profile#user')->with('transfer_success', 'Successfully transfered.');
