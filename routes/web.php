@@ -24,7 +24,10 @@ Route::get('/', function () {
 
     Route::get('wallet',[UserProfileController::class,'wallet'])->name('user#wallet');
     Route::get('transfer',[UserProfileController::class,'transfer'])->name('transer#user');
-    Route::post('transfer/confirm',[UserProfileController::class,'confirm'])->name(('confirm#transfer'));
+    Route::get('transfer/confirm',[UserProfileController::class,'confirm'])->name(('confirm#transfer'));
+    Route::post('transfer/complete',[UserProfileController::class,'transferComplete'])->name(('complete#transfer'));
+    Route::get('to-account-verify', [UserProfileController::class,'verify']);
+    Route::get('passwordCheck',[UserProfileController::class,'check']);
     });
 
 Route::middleware('auth')->group(function () {
@@ -42,8 +45,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('wallet',[WalletController::class,'index'])->name('wallet.index');
     Route::get('wallet/datatable/ssd',[WalletController::class,'ssd']);
-
-
     });
 
 

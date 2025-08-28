@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UpdatePassword;
+use App\Http\Requests\TransferValidate;
 
 class UserProfileController extends Controller
 {
@@ -44,11 +46,105 @@ class UserProfileController extends Controller
         return view('user.transfer',compact('user'));
     }
 
-      public function confirm(Request $request){
-        $to_phone = $request->to_phone;
+      public function confirm(TransferValidate $request){
+         $authUser = Auth::guard('web')->user();
+
+         if($authUser->phone == $request->to_phone){
+             return back()->withErrors(['to_phone' => 'This account is invalid'])->withInput();
+         }
+
+        $to_account = User::where('phone', $request->to_phone)->first();
+
+        if(!$to_account){
+            return back()->withErrors(['to_phone' => 'This phone number does not register'])->withInput();
+        }
+
+        $from_account = $authUser;
         $amount = $request->amount;
         $description = $request->description;
         $user = Auth::user();
-        return view('user.confirm',compact('user','to_phone','amount','description'));
+        return view('user.confirm',compact('from_account','to_account','amount','description'));
     }
+
+  public function verify(Request $request){
+    $authUser = Auth::guard('web')->user();
+
+    if($authUser->phone != $request->phone){
+    $user = User::where('phone', $request->phone)->first();
+
+    if($user){
+        return response()->json([
+            'status' => 'success',
+            'message'=>'success',
+            'data' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'phone' => $user->phone
+            ]
+        ]);
+    }
+
+    }
+    return response()->json([
+        'status' => 'fail',
+        'message' => 'User not found'
+    ]);
+}
+
+
+public function transferComplete(TransferValidate $request){
+       $authUser = Auth::guard('web')->user();
+
+         if($authUser->phone == $request->to_phone){
+             return back()->withErrors(['to_phone' => 'This account is invalid'])->withInput();
+         }
+
+        $to_account = User::where('phone', $request->to_phone)->first();
+
+        if(!$to_account){
+            return back()->withErrors(['to_phone' => 'This phone number does not register'])->withInput();
+        }
+
+        $from_account = $authUser;
+        $amount = $request->amount;
+        $description = $request->description;
+
+        if(!$from_account->wallet || !$to_account->wallet){
+            return back()->withErrors(['Fail' => 'Something Wrong.The given data is invalid'])->withInput();
+        }
+
+        $from_account_wallet = $from_account->wallet;
+        $from_account_wallet->decrement('amount', $amount);
+        $from_account_wallet->update();
+
+        $to_account_wallet = $to_account->wallet;
+        $to_account_wallet->increment('amount', $amount);
+        $to_account_wallet->update();
+
+        return to_route('profile#user')->with('transfer_success', 'Successfully transfered.');
+}
+
+
+public function check(Request $request){
+    if(!$request->password){
+return response()->json([
+    'status'=>'fail',
+    'message'=>'Please Fill your password'
+
+]);
+    }
+     $authUser = Auth::guard('web')->user();
+     if(Hash::check($request->password, $authUser->password)){
+     return response()->json([
+        'status'=>'success',
+        'message'=>' The password is correct'
+     ]);
+     }
+
+     return response()->json([
+        'status'=>'fail',
+        'message'=>' The password is incorrect'
+     ]);
+
+}
 }

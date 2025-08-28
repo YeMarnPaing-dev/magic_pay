@@ -33,7 +33,7 @@
         <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
 </head>
 
-<body style="background: #ebeaf4">
+<body style="background: #ebeaf4;overflow-x: hidden;">
 
 
     <!-- Header -->
