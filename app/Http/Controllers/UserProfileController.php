@@ -148,7 +148,7 @@ public function transferComplete(TransferValidate $request){
         $to_account_transaction->save();
 
         DB::commit();
-       return to_route('profile#user')->with('transfer_success', 'Successfully transfered.');
+        return redirect('user/transactionDetail/'.$from_account_transaction->trx_id)->with('transfer_success', 'Successfully transfered.');
         }catch(\Exception $error){
             DB::rollback();
             return back()->withErrors(['Fail' => 'Something Wrong' . $error->getMessage()])->withInput();

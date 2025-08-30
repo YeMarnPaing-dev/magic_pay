@@ -153,6 +153,7 @@
 
 {{-- sweet alert  --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="asset('frontend/js/jquery.jscroll.min.js')"></script>
 
 <!-- Laravel Javascript Validation -->
 <script type="text/javascript" src="{{ url('vendor/jsvalidation/js/jsvalidation.js') }}"></script>

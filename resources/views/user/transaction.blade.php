@@ -4,8 +4,9 @@
 @section('content')
 
 <div class="Transaction">
+    <div class="infinite-scroll">
  @foreach ($transactions as $transaction)
-<a style="text-decoration: none;" href="{{url('user/transaction/' .  $transaction->trx_id)}}">
+<a style="text-decoration: none;" href="{{url('user/transactionDetail/' .  $transaction->trx_id)}}">
      <div class="card mb-2">
     <div class="card-body p-2">
       <div class="d-flex justify-content-between">
@@ -31,7 +32,26 @@
  @endforeach
 
 <div> {{$transactions->links()}}</div>
+</div>
 
 </div>
 
 @endsection
+
+{{-- @section('script')
+<script>
+    $('ul.pagination').hide();
+    $(function() {
+        $('.infinite-scroll').jscroll({
+            autoTrigger: true,
+            loadingHtml: '<img class="center-block" src="/images/loading.gif" alt="Loading..." />',
+            padding: 0,
+            nextSelector: '.pagination li.active + li a',
+            contentSelector: 'div.infinite-scroll',
+            callback: function() {
+                $('ul.pagination').remove();
+            }
+        });
+    });
+</script>
+@endsection --}}
