@@ -31,6 +31,7 @@
 
         <link rel="stylesheet" href="{{asset('frontend/css/user.css')}}">
         <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
+        <link rel="stylesheet" href="{{asset('frontend/css/transaction.css')}}">
 </head>
 
 <body style="background: #ebeaf4;overflow-x: hidden;">
