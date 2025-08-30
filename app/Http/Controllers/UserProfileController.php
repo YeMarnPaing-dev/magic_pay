@@ -183,10 +183,22 @@ return response()->json([
 
 }
 
-public function transaction(){
-    $authUser = auth()->guard('web')->user();
-    $transactions = transaction::with('user','source')->where('user_id', $authUser->id)->orderBy('created_at','desc')->paginate(5);
-    return view('user.transaction',compact('transactions'));
+public function transaction(Request $request){
+$authUser = auth()->guard('web')->user();
+
+$transactions = Transaction::with('user','source')
+    ->where('user_id', $authUser->id)
+    ->orderBy('created_at','desc');
+
+if ($request->type) {
+    $transactions = $transactions->where('type', $request->type);
+}
+
+$transactions = $transactions->paginate(5)->appends($request->all());
+
+return view('user.transaction', compact('transactions'));
+
+
 }
 
 public function transactionDetail($trx_id){
