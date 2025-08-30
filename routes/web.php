@@ -31,6 +31,8 @@ Route::get('/', function () {
 
     Route::get('transaction',[UserProfileController::class,'transaction'])->name('transaction#list');
     Route::get('transactionDetail/{trx_id}',[UserProfileController::class,'transactionDetail'])->name('transaction#detail');
+
+    Route::get('transfer-check',[UserProfileController::class,'hash'])->name('transhfer#hash');
     });
 
 Route::middleware('auth')->group(function () {

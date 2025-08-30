@@ -7,8 +7,8 @@
 
         <div class="card" style="">
             <div class="card-body">
-                <form action="{{ route('confirm#transfer') }}" method="GET">
-
+                <form action="{{ route('confirm#transfer') }}" method="GET" id="transfer_form">
+            <input type="hidden"  name="hash_value" class="hash_value" value="">
                     <div class="form-group">
                         <label for="">From</label>
                         <p class="mb-1">{{ $user->name }}</p>
@@ -32,14 +32,14 @@
                     <div class="form-group">
                         <label for="">Amount</label>
                         <input type="number" name="amount" value="{{ old('amount') }}"
-                            class="form-control @error('amount')  is-invalid @enderror">
+                            class="form-control amount @error('amount')  is-invalid @enderror">
                         @error('amount')
                             <span class="invalid-feedback">{{ $message }}</span>
                         @enderror
                     </div>
                     <div class="form-group">
                         <label for="">Description</label>
-                        <textarea name="description" class="form-control @error('description')  is-invalid @enderror" id="">
+                        <textarea name="description" class="form-control description @error('description')  is-invalid @enderror" id="">
                 {{ old('description') }}
                </textarea>
                         @error('description')
@@ -48,7 +48,7 @@
                     </div>
 
                     <button type="submit" style="background: #5842E3; color:#fff;"
-                        class="btn btn-block mt-3">Continue</button>
+                        class="btn btn-block mt-3 submit-btn">Continue</button>
                 </form>
             </div>
         </div>
@@ -78,6 +78,23 @@
                         }
                     });
                 });
+
+                $('.submit-btn').on('click',function(e){
+                    e.preventDefault();
+                    var to_phone = $('.to_phone').val();
+                    var amount = $('.amount').val();
+                    var description = $('.description').val();
+                      $.ajax({
+                        url: `/user/transfer-check?to_phone=${to_phone}&amount=${amount}&description=${description}`,
+                        type: 'GET',
+                        success: function(res) {
+                            if(res.status == 'success'){
+                                $('.hash_value').val(res.data);
+                                $('#transfer_form').submit();
+                            }
+                        }
+                    });
+                })
             });
         </script>
 

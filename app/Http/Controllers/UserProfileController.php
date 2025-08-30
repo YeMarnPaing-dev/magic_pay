@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Hashids\Hashids;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Helpers\UUIDGenerate;
@@ -15,6 +16,9 @@ use App\Http\Requests\TransferValidate;
 class UserProfileController extends Controller
 {
     public function profile(){
+
+
+
         $user = Auth::user();
         return view('user.profile',compact('user'));
     }
@@ -50,6 +54,23 @@ class UserProfileController extends Controller
     }
 
       public function confirm(TransferValidate $request){
+
+       $authUser = Auth::guard('web')->user();
+        $from_account = $authUser;
+        $to_phone = $request->to_phone;
+        $amount = $request->amount;
+        $description = $request->description;
+        $user = Auth::user();
+        $hash_value = $request->hash_value;
+
+
+            $str = $to_phone.$amount.$description;
+            $hash_value2 = hash_hmac('sha256',$str,'yemarnpay123#1234');
+
+            if($hash_value !== $hash_value2){
+            return back()->withErrors(['amount' => 'The Given Amount is Invalid'])->withInput();
+            }
+
          $authUser = Auth::guard('web')->user();
 
          if($authUser->phone == $request->to_phone){
@@ -62,11 +83,17 @@ class UserProfileController extends Controller
             return back()->withErrors(['to_phone' => 'This phone number does not register'])->withInput();
         }
 
-        $from_account = $authUser;
-        $amount = $request->amount;
-        $description = $request->description;
-        $user = Auth::user();
-        return view('user.confirm',compact('from_account','to_account','amount','description'));
+
+        if(!$from_account->wallet || !$to_account->wallet){
+            return back()->withErrors(['Fail' => 'Something Wrong.The given data is invalid'])->withInput();
+        }
+
+        if($from_account->wallet->amount < $amount){
+               return back()->withErrors(['amount' => 'You dont have enough money'])->withInput();
+        }
+
+
+        return view('user.confirm',compact('from_account','to_account','amount','description','hash_value'));
     }
 
   public function verify(Request $request){
@@ -96,7 +123,23 @@ class UserProfileController extends Controller
 
 
 public function transferComplete(TransferValidate $request){
-       $authUser = Auth::guard('web')->user();
+      $authUser = Auth::guard('web')->user();
+        $from_account = $authUser;
+        $to_phone = $request->to_phone;
+        $amount = $request->amount;
+        $description = $request->description;
+        $user = Auth::user();
+        $hash_value = $request->hash_value;
+
+
+            $str = $to_phone.$amount.$description;
+            $hash_value2 = hash_hmac('sha256',$str,'yemarnpay123#1234');
+
+            if($hash_value !== $hash_value2){
+            return back()->withErrors(['amount' => 'The Given Amount is Invalid'])->withInput();
+            }
+
+         $authUser = Auth::guard('web')->user();
 
          if($authUser->phone == $request->to_phone){
              return back()->withErrors(['to_phone' => 'This account is invalid'])->withInput();
@@ -108,13 +151,15 @@ public function transferComplete(TransferValidate $request){
             return back()->withErrors(['to_phone' => 'This phone number does not register'])->withInput();
         }
 
-        $from_account = $authUser;
-        $amount = $request->amount;
-        $description = $request->description;
 
         if(!$from_account->wallet || !$to_account->wallet){
             return back()->withErrors(['Fail' => 'Something Wrong.The given data is invalid'])->withInput();
         }
+
+        if($from_account->wallet->amount < $amount){
+               return back()->withErrors(['amount' => 'You dont have enough money'])->withInput();
+        }
+
 
         DB::beginTransaction();
         try{
@@ -210,5 +255,15 @@ public function transactionDetail($trx_id){
     $transaction = Transaction::with('user','source')->where('user_id', $authUser->id)->where('trx_id', $trx_id)->first();
 
     return view('user.transaction_detail',compact('transaction'));
+}
+
+public function hash(Request $request){
+        $str = $request->to_phone.$request->amount.$request->description;
+        $hash_value = hash_hmac('sha256',$str,'yemarnpay123#1234');
+
+        return response()->json([
+          'status'=>'success',
+          'data'=>$hash_value
+        ]);
 }
 }

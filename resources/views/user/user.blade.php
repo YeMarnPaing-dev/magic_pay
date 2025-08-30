@@ -51,7 +51,7 @@
                         <div class="d-flex justify-content-between align-items-center ">
                             <span> <img style="width: 25px;height25px;margin-right:8px;" src="{{asset('frontend/image/wallet.png')}}" alt=""> Wallet</span>
                             <span class="mr-3">
-                                <a href="">
+                                <a href="{{route('user#wallet')}}">
                                     <i style="color: #555; text-decoration:none;" class="fa-solid fa-angles-right"></i>
                                 </a>
                             </span>

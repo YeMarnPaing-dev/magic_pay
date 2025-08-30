@@ -10,6 +10,7 @@
                 @include('user.flash')
                 <form action="{{ route('complete#transfer') }}" method="POST" id="form">
                     @csrf
+                    <input type="hidden" name="hash_value" value="{{ $hash_value }}">
                     <input type="hidden" name="to_phone" value="{{ $to_account->phone }}">
                     <input type="hidden" name="amount" value="{{ $amount }}">
                     <input type="hidden" name="description" value="{{ $description }}">
