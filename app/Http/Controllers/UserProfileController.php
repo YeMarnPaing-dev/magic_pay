@@ -194,6 +194,10 @@ if ($request->type) {
     $transactions = $transactions->where('type', $request->type);
 }
 
+if ($request->date) {
+    $transactions = $transactions->whereDate('created_at', $request->date);
+}
+
 $transactions = $transactions->paginate(5)->appends($request->all());
 
 return view('user.transaction', compact('transactions'));

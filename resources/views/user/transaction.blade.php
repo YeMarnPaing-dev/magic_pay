@@ -7,19 +7,15 @@
         <div class="card mb-2">
             <div class="card-body p-2">
                 <div class="row">
-                    <div class="col-6"></div>
+                    <div class="col-6">
+                        <input type="text" class="form-control date" value="
+                        {{request()->date ?? date('Y-m-d')}}" name="" id="">
+                    </div>
                     <div class="col-6">
                         <select name="user" id="user" class="type form-control">
                             <option value="">--Type --</option>
-                            <option
-                            @if (request()->type ==1)
-                            selected
-                            @endif value="1">Income</option>
-                            <option
-                             @if (request()->type ==2)
-                            selected
-                            @endif
-                             value="2">Expense</option>
+                            <option @if (request()->type == 1) selected @endif value="1">Income</option>
+                            <option @if (request()->type == 2) selected @endif value="2">Expense</option>
                         </select>
                     </div>
                 </div>
@@ -81,14 +77,39 @@
 
     <script>
         $(document).ready(function() {
-          $('.type').change(function(){
-            var type = $('.type').val();
-             history.pushState(null,'',`?type=${type}`);
-             window.location.reload();
-          })
+            $('.date').daterangepicker({
+                "singleDatePicker": true,
+                "autoApply": true,
+                "locale": {
+                    "format": "YYYY/MM/DD",
+
+                },
+            }, function(start, end, label) {
+                console.log('New date range selected: ' + start.format('YYYY-MM-DD') + ' to ' + end.format(
+                    'YYYY-MM-DD') + ' (predefined range: ' + label + ')');
+            });
+
+
+
+            $('.date').on('apply.daterangepicker', function(ev, picker) {
+             var date = $('.date').val();
+             var type = $('.type').val();
+             history.pushState(null, '', `?date=${date}&type=${type}`);
+                window.location.reload();
+
+
+            });
+
+            $('.type').change(function() {
+                 var date = $('.date').val();
+             var type = $('.type').val();
+             history.pushState(null, '', `?date=${date}&type=${type}`);
+                window.location.reload();
+            })
+
+
 
         });
     </script>
 
 @endsection
-

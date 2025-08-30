@@ -32,6 +32,7 @@
         <link rel="stylesheet" href="{{asset('frontend/css/user.css')}}">
         <link rel="stylesheet" href="{{ asset('frontend/css/style.css') }}">
         <link rel="stylesheet" href="{{asset('frontend/css/transaction.css')}}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 </head>
 
 <body style="background: #ebeaf4;overflow-x: hidden;">
@@ -111,7 +112,7 @@
                         </a>
                     </div>
                     <div class="col-3">
-                        <a href="">
+                        <a href="{{route('transaction#list')}}">
                             <i class="fa-solid fa-arrow-right-arrow-left"></i>
                             <p>Transaction</p>
                         </a>
@@ -157,6 +158,9 @@
 
 <!-- Laravel Javascript Validation -->
 <script type="text/javascript" src="{{ url('vendor/jsvalidation/js/jsvalidation.js') }}"></script>
+
+<script  src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script  src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 
 <script>
     $(document).ready(function() {
