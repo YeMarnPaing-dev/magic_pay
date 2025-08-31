@@ -33,6 +33,7 @@ Route::get('/', function () {
     Route::get('transactionDetail/{trx_id}',[UserProfileController::class,'transactionDetail'])->name('transaction#detail');
 
     Route::get('transfer-check',[UserProfileController::class,'hash'])->name('transhfer#hash');
+    Route::get('receive-qr',[UserProfileController::class,'receive'])->name('receive#qr');
     });
 
 Route::middleware('auth')->group(function () {

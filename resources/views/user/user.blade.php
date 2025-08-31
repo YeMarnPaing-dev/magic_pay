@@ -25,14 +25,15 @@
                 </div>
             </div>
             <div class="col-6">
+                <a href="{{route('receive#qr')}}">
                 <div class="card ">
                     <div class="card-body p-2">
-                        <img style="width:25px; height:25px; margin-right:10px" src="{{ asset('frontend/image/qr.png') }}"
+                        <img style="width:25px; height:25px; margin-right:10px;" src="{{ asset('frontend/image/qr.png') }}"
                             alt="">
-                        <span>Receive QR</span>
+                        <span style="text-decoration:none;color:black">Receive QR</span>
                     </div>
                 </div>
-
+                 </a>
             </div>
             <div class="col-12 mt-3">
                 <div class="card mb-3">

@@ -266,4 +266,9 @@ public function hash(Request $request){
           'data'=>$hash_value
         ]);
 }
+
+public function receive(){
+    $authUser = auth()->guard('web')->user();
+    return view('user.receive_qr',compact('authUser'));
+}
 }
