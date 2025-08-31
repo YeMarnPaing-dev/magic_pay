@@ -271,4 +271,8 @@ public function receive(){
     $authUser = auth()->guard('web')->user();
     return view('user.receive_qr',compact('authUser'));
 }
+
+public function scanpay(){
+   return view('user.scan_and_pay');
+}
 }

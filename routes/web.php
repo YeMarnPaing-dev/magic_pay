@@ -34,6 +34,7 @@ Route::get('/', function () {
 
     Route::get('transfer-check',[UserProfileController::class,'hash'])->name('transhfer#hash');
     Route::get('receive-qr',[UserProfileController::class,'receive'])->name('receive#qr');
+    Route::get('scan-and-pay',[UserProfileController::class,'scanpay'])->name('scan#pay');
     });
 
 Route::middleware('auth')->group(function () {

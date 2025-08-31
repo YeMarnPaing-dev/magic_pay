@@ -16,13 +16,15 @@
             </div>
 
             <div class="col-6">
-                <div class="card ">
+                <a href="{{route('scan#pay')}}">
+                     <div class="card ">
                     <div class="card-body p-2">
                         <img style="width:25px; height:25px; margin-right:10px"
                             src="{{ asset('frontend/image/qr-code-scan.png') }}" alt="">
-                        <span>Scan & Pay</span>
+                        <span style="color:black;">Scan & Pay</span>
                     </div>
                 </div>
+                </a>
             </div>
             <div class="col-6">
                 <a href="{{route('receive#qr')}}">
