@@ -19,6 +19,10 @@
 
     @yield('extra_css')
 
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.5.2/css/bootstrap.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/2.3.2/css/dataTables.bootstrap4.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css">
@@ -73,7 +77,7 @@
 
     <!-- Bottom Menu -->
     <div class="bottom-menu">
-        <a href="" class="scan" style=" width: 60px;
+        <a href="{{route('scan#pay')}}" class="scan" style=" width: 60px;
     height: 60px;
     background: #5842E3;
     border-radius:100%;
@@ -154,14 +158,19 @@
 
 {{-- sweet alert  --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="asset('frontend/js/jquery.jscroll.min.js')"></script>
+{{-- <script src="asset('frontend/js/jquery.jscroll.min.js')"></script> --}}
 
 <!-- Laravel Javascript Validation -->
 <script type="text/javascript" src="{{ url('vendor/jsvalidation/js/jsvalidation.js') }}"></script>
 
 <script  src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script  src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
+{{-- modal  --}}
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 <script>
     $(document).ready(function() {
         let token = document.head.querySelector('meta[name="csrf-token"]');
