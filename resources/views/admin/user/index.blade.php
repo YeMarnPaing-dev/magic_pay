@@ -127,11 +127,7 @@
                                 table.ajax.reload();
                             }
                         });
-                        // Swal.fire({
-                        //   title: "Deleted!",
-                        //   text: "Your file has been deleted.",
-                        //   icon: "success"
-                        // });
+
                     }
                 });
             });
