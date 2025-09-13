@@ -275,4 +275,8 @@ public function receive(){
 public function scanpay(){
    return view('user.scan_and_pay');
 }
+
+// public function scanForm(Request $request){
+//     return $request->all();
+// }
 }
