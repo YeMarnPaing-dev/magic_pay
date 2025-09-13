@@ -50,24 +50,32 @@
 <script src="{{ asset('frontend/js/qr-scanner.umd.min.js') }}"></script>
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    const videoElem = document.getElementById('scanner');
-    const resultElem = document.getElementById('scanResult');
+   const videoElem = document.getElementById('scanner');
+const resultElem = document.getElementById('scanResult');
 
-    QrScanner.WORKER_PATH = "{{ asset('frontend/js/qr-scanner-worker.min.js') }}";
+QrScanner.WORKER_PATH = "{{ asset('frontend/js/qr-scanner-worker.min.js') }}";
 
-    const qrScanner = new QrScanner(videoElem, result => {
-        const code = result.data;
-        console.log(code);
+const qrScanner = new QrScanner(videoElem, result => {
+    const code = result.data;   // This is the decoded QR text
+    console.log("QR Code:", code);
 
-        resultElem.textContent = "Scanned: " + code;
+    resultElem.textContent = "Scanned: " + code;
 
-        if (code) {
-            qrScanner.stop();
-            const modalEl = document.getElementById('scanModal');
-            const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
-            modal.hide();
-        }
-    }, { returnDetailedScanResult: true });
+    if (code) {
+        qrScanner.stop();
+
+        // Hide the modal
+        const modalEl = document.getElementById('scanModal');
+        const modal = bootstrap.Modal.getOrCreateInstance(modalEl);
+        modal.hide();
+
+        // Use QR code text as phone number
+        const to_phone = encodeURIComponent(code);
+
+        // Redirect to your form
+        window.location.replace(`scan_pay_form?to_phone=${to_phone}`);
+    }
+}, { returnDetailedScanResult: true });
 
     const myModalEl = document.getElementById('scanModal');
 

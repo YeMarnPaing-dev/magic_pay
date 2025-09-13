@@ -1,0 +1,107 @@
+@extends('user.layouts.app_plain')
+@section('title', 'Scan & Pay')
+
+@section('content')
+
+    <div class="transfer">
+
+        <div class="card" style="">
+            <div class="card-body">
+                <form action="{{ route('scan#Confirm') }}" method="GET" id="transfer_form">
+            <input type="hidden"  name="hash_value" class="hash_value" value="">
+            <input type="hidden"  name="to_phone" class="to_phone" value="{{$to_account->phone}}">
+                    <div class="form-group">
+                        <label for="">From</label>
+                        <p class="mb-1">{{ $from_account->name }}</p>
+                        <p class="mb-1">{{ $from_account->phone }}</p>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="">To <span class="text-success to_account_info">
+                            <p class="mb-1">{{ $to_account->name }}</p>
+                        <p class="mb-1">{{ $to_account->phone }}</p>
+                        </span>
+                        </label>
+
+                        {{-- <div class="input-group">
+
+                            <input type="text" name="to_phone" value="{{$to_account->phone}}"
+                                class="form-control to_phone @error('to_phone')  is-invalid @enderror">
+                            <span class="input-group-text btn verify-btn"><i class="fa-solid fa-circle-check"></i></span>
+                               @error('to_phone')
+                            <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
+                        </div>
+
+                    </div> --}}
+
+                    <div class="form-group">
+                        <label for="">Amount</label>
+                        <input type="number" name="amount" value="{{ old('amount') }}"
+                            class="form-control amount @error('amount')  is-invalid @enderror">
+                        @error('amount')
+                            <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
+                    </div>
+                    <div class="form-group">
+                        <label for="">Description</label>
+                        <textarea name="description" class="form-control description @error('description')  is-invalid @enderror" id="">
+                {{ old('description') }}
+               </textarea>
+                        @error('description')
+                            <span class="invalid-feedback">{{ $message }}</span>
+                        @enderror
+                    </div>
+
+                    <button type="submit" style="background: #5842E3; color:#fff;"
+                        class="btn btn-block mt-3 submit-btn">Continue</button>
+                </form>
+            </div>
+        </div>
+
+    @endsection
+
+    @section('script')
+
+        <script>
+            $(document).ready(function() {
+                $('.verify-btn').on('click', function() {
+                    var phone = $('.to_phone').val().trim();
+                    if (phone === '') {
+                        alert('Please enter a phone number');
+                        return;
+                    }
+
+                    $.ajax({
+                        url: '/user/to-account-verify?phone=' + phone,
+                        type: 'GET',
+                        success: function(res) {
+                            if(res.status == 'success'){
+                                $('.to_account_info').text('('+res.data['name']+')');
+                            }else{
+                                 $('.to_account_info').text('('+res.message+')');
+                            }
+                        }
+                    });
+                });
+
+                $('.submit-btn').on('click',function(e){
+                    e.preventDefault();
+                    var to_phone = $('.to_phone').val();
+                    var amount = $('.amount').val();
+                    var description = $('.description').val();
+                      $.ajax({
+                        url: `/user/transfer-check?to_phone=${to_phone}&amount=${amount}&description=${description}`,
+                        type: 'GET',
+                        success: function(res) {
+                            if(res.status == 'success'){
+                                $('.hash_value').val(res.data);
+                                $('#transfer_form').submit();
+                            }
+                        }
+                    });
+                })
+            });
+        </script>
+
+    @endsection

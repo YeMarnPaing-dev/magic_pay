@@ -36,6 +36,8 @@ Route::get('/', function () {
     Route::get('receive-qr',[UserProfileController::class,'receive'])->name('receive#qr');
     Route::get('scan-and-pay',[UserProfileController::class,'scanpay'])->name('scan#pay');
     Route::get('scan_pay_form',[UserProfileController::class,'scanForm'])->name('scan#form');
+    Route::get('scan_pay_form/confirm',[UserProfileController::class,'scanConfirm'])->name('scan#Confirm');
+    Route::post('scan_pay_form/Complete',[UserProfileController::class,'scanComplete'])->name('scan#Complete');
     });
 
 Route::middleware('auth')->group(function () {
