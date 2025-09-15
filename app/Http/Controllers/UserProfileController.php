@@ -12,14 +12,20 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UpdatePassword;
 use App\Http\Requests\TransferValidate;
+use App\Notifications\GeneralNotification;
+use Illuminate\Support\Facades\Notification;
 
 class UserProfileController extends Controller
 {
     public function profile(){
-
-
-
         $user = Auth::user();
+        $title = "Hello world";
+        $message='LOrem ipsum fsdkfjklsd kdsfklsdjfkds';
+        $sourceable_id=1;
+        $sourceable_type=User::class;
+        $web_link=url('user/profile');
+
+        Notification::send([$user], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link));
         return view('user.profile',compact('user'));
     }
 
