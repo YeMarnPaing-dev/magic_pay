@@ -19,13 +19,6 @@ class UserProfileController extends Controller
 {
     public function profile(){
         $user = Auth::user();
-        $title = "Hello world";
-        $message='LOrem ipsum fsdkfjklsd kdsfklsdjfkds';
-        $sourceable_id=1;
-        $sourceable_type=User::class;
-        $web_link=url('user/profile');
-
-        Notification::send([$user], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link));
         return view('user.profile',compact('user'));
     }
 
@@ -42,6 +35,14 @@ class UserProfileController extends Controller
         if (Hash::check( $old_password, $user->password)) {
              $user->password = Hash::make($new_password);
              $user->update();
+
+        $title = "Changed Password";
+        $message='Your password has Successfully changed';
+        $sourceable_id=$user->id;
+        $sourceable_type=User::class;
+        $web_link=url('user/profile');
+
+        Notification::send([$user], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link));
 
              return redirect()->route('profile#user')->with('update', 'Successfully Updated Password');
          }

@@ -7,6 +7,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserProfileController;
+use App\Http\Controllers\NotificationController;
 
 Route::get('/', function () {
     return view('auth.login');
@@ -38,6 +39,9 @@ Route::get('/', function () {
     Route::get('scan_pay_form',[UserProfileController::class,'scanForm'])->name('scan#form');
     Route::get('scan_pay_form/confirm',[UserProfileController::class,'scanConfirm'])->name('scan#Confirm');
     Route::post('scan_pay_form/Complete',[UserProfileController::class,'scanComplete'])->name('scan#Complete');
+
+    Route::get('notification',[NotificationController::class,'index'])->name('noti#index');
+    Route::get('notification/{id}',[NotificationController::class,'show'])->name('noti#show');
     });
 
 Route::middleware('auth')->group(function () {
