@@ -199,6 +199,26 @@ public function transferComplete(TransferValidate $request){
         $to_account_transaction->description= $description;
         $to_account_transaction->save();
 
+        // from
+        $title = "E-money Transfered!";
+        $message='Your e-money transfered ' . $amount . 'MMK to ' . $to_account->name ;
+        $sourceable_id= $from_account_transaction->id;
+        $sourceable_type=Transaction::class;
+        $web_link=url('user/transactionDetail/');
+
+        Notification::send([$from_account], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link));
+
+        // to
+        $title = "E-money Received!";
+        $message='Your wallet received ' . $amount . 'MMK From' . $from_account->name ;
+        $sourceable_id=$to_account_transaction->id;
+        $sourceable_type=Transaction::class;
+        $web_link=url('user/transactionDetail/');
+
+        Notification::send([$to_account], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link));
+
+
+
         DB::commit();
         return redirect('user/transactionDetail/'.$from_account_transaction->trx_id)->with('transfer_success', 'Successfully transfered.');
         }catch(\Exception $error){
@@ -405,6 +425,24 @@ return view('user.scan_pay_form',compact('to_account','from_account'));
         $to_account_transaction->source_id= $from_account->id;
         $to_account_transaction->description= $description;
         $to_account_transaction->save();
+
+         // from
+        $title = "E-money Transfered!";
+        $message='Your e-money transfered ' . $amount . 'MMK to ' . $to_account->name ;
+        $sourceable_id= $from_account_transaction->id;
+        $sourceable_type=Transaction::class;
+        $web_link=url('user/transactionDetail/');
+
+        Notification::send([$from_account], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link));
+
+        // to
+        $title = "E-money Received!";
+        $message='Your wallet received ' . $amount . 'MMK From' . $from_account->name ;
+        $sourceable_id=$to_account_transaction->id;
+        $sourceable_type=Transaction::class;
+        $web_link=url('user/transactionDetail/');
+
+        Notification::send([$to_account], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link));
 
         DB::commit();
         return redirect('user/transactionDetail/'.$from_account_transaction->trx_id)->with('transfer_success', 'Successfully transfered.');
