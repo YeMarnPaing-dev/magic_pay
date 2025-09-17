@@ -9,7 +9,7 @@
             @php
                 // $data = json_decode($notification->data,true);
             @endphp
-                <a style="text-decoration: none;" href="{{ url('user/notification/' . $noti->trx_id) }}">
+                <a style="text-decoration: none;" href="{{ url('user/notification/' . $noti->id) }}">
                     <div class="card mb-2">
                         <div class="card-body p-2">
                     <h5> <i  class="fas fa-bell @if (is_null($noti->read_at) )

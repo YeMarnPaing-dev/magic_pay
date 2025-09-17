@@ -11,7 +11,7 @@ use App\Http\Controllers\NotificationController;
 
 Route::get('/', function () {
     return view('auth.login');
-});
+})->middleware('guest');
 
 // Route::get('/dashboard', function () {
 //     return view('dashboard');

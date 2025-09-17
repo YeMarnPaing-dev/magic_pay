@@ -59,7 +59,7 @@
                         <h3>@yield('title')</h3>
                     </div>
                     <div class="col-2 text-center">
-                        <a href=""><i class="fa-solid fa-bell"></i></a>
+                        <a href="{{route('noti#index')}}"><i class="fa-solid fa-bell"></i></a>
                     </div>
                 </div>
             </div>
