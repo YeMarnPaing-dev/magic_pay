@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use Illuminate\Support\Facades\Request;
+use App\Http\Controllers\Api\PageController;
 
 
-Route::get('test',function(){
-    return 'Hello';
-})
+Route::get('test',[PageController::class,'test'])->name('api#test');
+
+
