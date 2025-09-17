@@ -41,6 +41,12 @@ return [
             'provider' => 'users',
         ],
 
+         'api' => [
+        'driver' => 'passport', // 👈 change from token/sanctum to passport
+        'provider' => 'users',
+    ],
+
+
     ],
 
     /*
@@ -72,6 +78,7 @@ return [
         //     'table' => 'users',
         // ],
     ],
+
 
     /*
     |--------------------------------------------------------------------------

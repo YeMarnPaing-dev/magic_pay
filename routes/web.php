@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PageController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\NotificationController;
@@ -14,9 +15,6 @@ Route::get('/', function () {
     return view('auth.login');
 })->middleware('guest');
 
-// Route::get('/dashboard', function () {
-//     return view('dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
 
  Route::group(['prefix'=>'user','middleware'=>'usermiddleware'],function(){
     Route::get('user',[LoginController::class,'user'])->name('user#login');
@@ -66,6 +64,7 @@ Route::middleware('auth')->group(function () {
 
 });
 
-Route::get('test', [PageController::class, 'test']);
+
+
 
 require __DIR__.'/auth.php';

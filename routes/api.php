@@ -1,9 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PageController;
 
 
-// Route::get('test',[PageController::class,'test'])->name('api#test');
+
+Route::namespace('Api')->group(function(){
+    Route::get('register',[AuthController::class,'register']);
+     Route::get('test',[PageController::class,'test']);
+});
 
 
