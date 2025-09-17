@@ -9,6 +9,6 @@ class PageController extends Controller
 {
 
     public function test(){
-     return 'testing';
+      return success('Successfully', 'Testing');
     }
 }

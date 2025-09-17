@@ -31,5 +31,7 @@ class AppServiceProvider extends ServiceProvider
         }
           $view->with('unread_noti_count',$unread_noti_count);
         });
+
+
     }
 }

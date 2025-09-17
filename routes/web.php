@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\WalletController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Api\PageController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\NotificationController;
 
@@ -65,6 +66,6 @@ Route::middleware('auth')->group(function () {
 
 });
 
-
+Route::get('test', [PageController::class, 'test']);
 
 require __DIR__.'/auth.php';
