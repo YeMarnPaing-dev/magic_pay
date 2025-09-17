@@ -59,7 +59,8 @@
                         <h3>@yield('title')</h3>
                     </div>
                     <div class="col-2 text-center">
-                        <a href="{{route('noti#index')}}"><i class="fa-solid fa-bell"></i></a>
+                        <a href="{{route('noti#index')}}"><i class="fa-solid fa-bell"></i>
+                            <span style="position: absolute; top: -8px;right: 8px;padding:3px " class="badge badge-pill badge-danger">{{$unread_noti_count}}</span></a>
                     </div>
                 </div>
             </div>
