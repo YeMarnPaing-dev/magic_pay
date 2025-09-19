@@ -18,6 +18,8 @@ Route::namespace('Api')->group(function(){
 
       Route::get('notification',[PageController::class,'notification']);
       Route::get('notification/{id}',[PageController::class,'noti_detail']);
+
+      Route::get('to-account-verify',[PageController::class,'to_account_verify']);
     });
 
 

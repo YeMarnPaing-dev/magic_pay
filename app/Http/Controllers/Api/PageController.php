@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\User;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -68,5 +69,22 @@ class PageController extends Controller
 
     $data = new NotiDetailResource($notifications);
     return success('success', $data);
+    }
+
+
+    public function to_account_verify(Request $request){
+        if($request->phone){
+         $authUser = auth()->user();
+         if($authUser->phone != $request->phone){
+            $user = User::where('phone', $request->phone)->first();
+            if($user){
+                return success('success', [
+                    'name'=> $user->name,
+                    'phone'=> $user->phone
+                ]);
+            }
+         }
+        }
+        return fail('Invalid data', null);
     }
 }
