@@ -35,6 +35,6 @@ class PageController extends Controller
     $transactions= $transactions->get();
 
     $data = TransactionResource::collection($transactions);
-    return $data;
+    return success('success',$data);
     }
 }
