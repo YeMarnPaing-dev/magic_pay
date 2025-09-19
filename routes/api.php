@@ -21,6 +21,7 @@ Route::namespace('Api')->group(function(){
 
       Route::get('to-account-verify',[PageController::class,'to_account_verify']);
       Route::get('transfer/Confirm',[PageController::class,'transferConfirm']);
+      Route::post('transfer/Complete',[PageController::class,'transferComplete']);
     });
 
 
