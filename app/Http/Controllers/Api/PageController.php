@@ -12,6 +12,6 @@ class PageController extends Controller
     public function profile(){
      $user = auth()->user();
      $data = new ProfileResource($user);
-     return success('message',$data);
+     return success('success',$data);
     }
 }

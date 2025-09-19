@@ -72,4 +72,11 @@ $user->save();
         return fail('These Credentials do not match our record', null);
 
     }
+
+    public function logout(){
+        $user = auth()->user();
+        $user->token()->revoke();
+
+        return success('Successfully Logout', null);
+    }
 }
