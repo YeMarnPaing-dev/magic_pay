@@ -15,9 +15,14 @@
         </div>
     </div>
 
+    <div class="pt3">
+        <a href="{{route('wallet#add')}}" class="btn btn-success"><i class="fa-solid fa-plus"></i> Add Amount</a>
+         <a href="{{route('wallet#reduce')}}" class="btn btn-danger"><i class="fa-solid fa-minus"></i>Remove Amount</a>
+    </div>
 
 
-    <div class="content">
+
+    <div class="content py-3">
 
         <div class="card">
             <div class="card-body">

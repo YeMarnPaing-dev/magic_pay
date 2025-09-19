@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
+use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -38,5 +39,10 @@ class WalletController extends Controller
      })
      ->rawColumns(['account_person'])
     ->make(true);
+   }
+
+   public function add(){
+    $users = User::orderBy('name')->get();
+    return view('admin.wallet.addAmount',compact('users'));
    }
 }
