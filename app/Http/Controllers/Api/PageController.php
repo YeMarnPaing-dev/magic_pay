@@ -17,13 +17,22 @@ class PageController extends Controller
      return success('success',$data);
     }
 
-    public function transaction(){
+    public function transaction(Request $request){
     $authUser = auth()->guard('api')->user();
 
     $transactions = Transaction::with('user','source')
     ->where('user_id', $authUser->id)
-    ->orderBy('created_at','desc')
-    ->get();
+    ->orderBy('created_at','desc');
+
+    if($request->date){
+        $transactions = $transactions->whereDate('created_at',$request->date);
+    }
+
+    if($request->type){
+        $transactions = $transactions->where('type' , $request->type);
+    }
+
+    $transactions= $transactions->get();
 
     $data = TransactionResource::collection($transactions);
     return $data;
