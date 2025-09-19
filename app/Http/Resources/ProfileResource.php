@@ -14,6 +14,9 @@ class ProfileResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+
+        $unread_noti_count =$this->unreadNotifications()->count();
+
         return [
         'name'=> $this->name,
         'phone'=>$this->phone,
@@ -21,6 +24,7 @@ class ProfileResource extends JsonResource
         'account_number'=> $this->wallet ? $this->wallet->account_number : '',
         'balance'=> $this->wallet ? number_format($this->wallet->amount ) : 0,
         'has_value' => $this->phone,
+        'unread_noti_count'=>$unread_noti_count,
 
         ];
     }

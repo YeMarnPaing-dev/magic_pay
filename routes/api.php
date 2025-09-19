@@ -15,6 +15,9 @@ Route::namespace('Api')->group(function(){
      Route::post('logout',[AuthController::class,'logout']);
      Route::get('transaction',[PageController::class,'transaction']);
       Route::get('transaction/{trx_id}',[PageController::class,'transaction_detail']);
+
+      Route::get('notification',[PageController::class,'notification']);
+      Route::get('notification/{id}',[PageController::class,'noti_detail']);
     });
 
 

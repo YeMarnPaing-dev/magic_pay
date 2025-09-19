@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DetailResource;
 use App\Http\Resources\ProfileResource;
+use App\Http\Resources\NotiDetailResource;
 use App\Http\Resources\TransactionResource;
+use App\Http\Resources\NotificationResource;
 
 class PageController extends Controller
 {
@@ -48,5 +50,23 @@ class PageController extends Controller
 
      $data = new DetailResource($transactions);
      return success('success', $data);
+    }
+
+    public function notification(){
+            $authUser = auth()->user();
+            $notifications = $authUser->notifications()->paginate(5);
+
+            return NotificationResource::collection($notifications)->additional(['result' =>1, 'message'=>'success']);
+
+    }
+
+    public function noti_detail($id){
+      $authUser = auth()->guard('api')->user();
+
+    $notifications = $authUser->notifications()->where('id', $id)->firstorFail();
+    $notifications->markAsRead();
+
+    $data = new NotiDetailResource($notifications);
+    return success('success', $data);
     }
 }

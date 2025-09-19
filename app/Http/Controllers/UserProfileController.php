@@ -41,8 +41,12 @@ class UserProfileController extends Controller
         $sourceable_id=$user->id;
         $sourceable_type=User::class;
         $web_link=url('user/profile');
+        $deep_link = [
+         'target'=>'profile',
+         'parameter'=>null
+        ];
 
-        Notification::send([$user], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link));
+        Notification::send([$user], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link,$deep_link));
 
              return redirect()->route('profile#user')->with('update', 'Successfully Updated Password');
          }
@@ -205,8 +209,14 @@ public function transferComplete(TransferValidate $request){
         $sourceable_id= $from_account_transaction->id;
         $sourceable_type=Transaction::class;
         $web_link=url('user/transactionDetail/');
+           $deep_link = [
+         'target'=>'transactionDetail',
+         'parameter'=>[
+            'trx_id'=> $from_account_transaction->trx_id
+         ]
+        ];
 
-        Notification::send([$from_account], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link));
+        Notification::send([$from_account], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link,$deep_link));
 
         // to
         $title = "E-money Received!";
@@ -214,8 +224,14 @@ public function transferComplete(TransferValidate $request){
         $sourceable_id=$to_account_transaction->id;
         $sourceable_type=Transaction::class;
         $web_link=url('user/transactionDetail/');
+           $deep_link = [
+         'target'=>'transactionDetail',
+         'parameter'=>[
+            'trx_id'=> $to_account_transaction->trx_id
+         ]
+        ];
 
-        Notification::send([$to_account], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link));
+        Notification::send([$to_account], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link,$deep_link));
 
 
 
@@ -432,8 +448,14 @@ return view('user.scan_pay_form',compact('to_account','from_account'));
         $sourceable_id= $from_account_transaction->id;
         $sourceable_type=Transaction::class;
         $web_link=url('user/transactionDetail/');
+           $deep_link = [
+         'target'=>'transactionDetail',
+         'parameter'=>[
+            'trx_id'=> $from_account_transaction->trx_id
+         ]
+        ];
 
-        Notification::send([$from_account], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link));
+        Notification::send([$from_account], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link,$deep_link));
 
         // to
         $title = "E-money Received!";
@@ -441,8 +463,14 @@ return view('user.scan_pay_form',compact('to_account','from_account'));
         $sourceable_id=$to_account_transaction->id;
         $sourceable_type=Transaction::class;
         $web_link=url('user/transactionDetail/');
+           $deep_link = [
+         'target'=>'transactionDetail',
+         'parameter'=>[
+            'trx_id'=> $to_account_transaction->trx_id
+         ]
+        ];
 
-        Notification::send([$to_account], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link));
+        Notification::send([$to_account], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link,$deep_link));
 
         DB::commit();
         return redirect('user/transactionDetail/'.$from_account_transaction->trx_id)->with('transfer_success', 'Successfully transfered.');
