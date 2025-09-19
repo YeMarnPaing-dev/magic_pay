@@ -274,4 +274,197 @@ public function transferComplete(TransferValidate $request){
 
 }
 
+public function scan_pay(Request $request)
+{
+    $from_account = auth()->user();
+    $to_account = User::where('phone', $request->to_phone)->first();
+
+    if (!$to_account) {
+        return fail('QR code invalid', null);
+    }
+
+    return success('success', [
+        'from_name'  => $from_account->name,
+        'from_phone' => $from_account->phone,
+        'to_phone'   => $to_account->phone,
+        'to_name'    => $to_account->name,
+    ]);
+}
+
+public function scan_confirm(TransferValidate $request){
+   $authUser = auth()->user();
+        $from_account = $authUser;
+        $to_phone = $request->to_phone;
+        $amount = $request->amount;
+        $description = $request->description;
+        $user = Auth::user();
+        $hash_value = $request->hash_value;
+
+
+            $str = $to_phone.$amount.$description;
+            $hash_value2 = hash_hmac('sha256',$str,'yemarnpay123#1234');
+
+            if($hash_value !== $hash_value2){
+                return fail('Fail amount', null);
+
+            }
+
+
+
+         if($authUser->phone == $request->to_phone){
+            return fail('Fail phone', null);
+         }
+
+        $to_account = User::where('phone', $request->to_phone)->first();
+
+        if(!$to_account){
+            return fail('Fail to Phone', null);
+
+        }
+
+
+        if(!$from_account->wallet || !$to_account->wallet){
+            return fail('Fail Data', null);
+
+        }
+
+        if($from_account->wallet->amount < $amount){
+            return fail('Fail  lower amount', null);
+
+        }
+
+         return success('success', [
+        'from_name'  => $from_account->name,
+        'from_phone' => $from_account->phone,
+        'to_phone'   => $to_account->phone,
+        'to_name'    => $to_account->name,
+    ]);
+
+
+}
+
+public function ScanComplete(TransferValidate $request){
+
+      if(!$request->password){
+        return fail('Please fill your password', null);
+    }
+      $authUser = auth()->user();
+     if(!Hash::check($request->password, $authUser->password)){
+     return fail('The password is incorrect.', null);
+     }
+
+
+        $from_account = $authUser;
+        $to_phone = $request->to_phone;
+        $amount = $request->amount;
+        $description = $request->description;
+        $user = Auth::user();
+        $hash_value = $request->hash_value;
+
+
+            $str = $to_phone.$amount.$description;
+            $hash_value2 = hash_hmac('sha256',$str,'yemarnpay123#1234');
+
+            // if($hash_value !== $hash_value2){
+            // return fail('Your hash value is invalid', null);
+            // }
+
+
+
+         if($authUser->phone == $request->to_phone){
+             return fail('Invalid Phone', null);
+         }
+
+        $to_account = User::where('phone', $request->to_phone)->first();
+
+        if(!$to_account){
+           return fail('phoneis not set up', null);
+        }
+
+
+        if(!$from_account->wallet || !$to_account->wallet){
+            return fail('Your wallet is incomlpete', null);
+        }
+
+        if($from_account->wallet->amount < $amount){
+              return fail('Your wallet is not enough', null);
+        }
+
+
+        DB::beginTransaction();
+        try{
+        $from_account_wallet = $from_account->wallet;
+        $from_account_wallet->decrement('amount', $amount);
+        $from_account_wallet->update();
+
+        $to_account_wallet = $to_account->wallet;
+        $to_account_wallet->increment('amount', $amount);
+        $to_account_wallet->update();
+
+        $ref_no = UUIDGenerate::refNumber();
+        $from_account_transaction = new Transaction();
+        $from_account_transaction->ref_no= $ref_no;
+        $from_account_transaction->trx_id= UUIDGenerate::trxId();
+        $from_account_transaction->user_id= $from_account->id;
+        $from_account_transaction->type= 2;
+        $from_account_transaction->amount= $amount;
+        $from_account_transaction->source_id= $to_account->id;
+        $from_account_transaction->description= $description;
+        $from_account_transaction->save();
+
+        $to_account_transaction = new Transaction();
+        $to_account_transaction->ref_no=  $ref_no;
+        $to_account_transaction->trx_id= UUIDGenerate::trxId();
+        $to_account_transaction->user_id= $to_account->id;
+        $to_account_transaction->type= 1;
+        $to_account_transaction->amount= $amount;
+        $to_account_transaction->source_id= $from_account->id;
+        $to_account_transaction->description= $description;
+        $to_account_transaction->save();
+
+        // from
+        $title = "E-money Transfered!";
+        $message='Your e-money transfered ' . $amount . 'MMK to ' . $to_account->name ;
+        $sourceable_id= $from_account_transaction->id;
+        $sourceable_type=Transaction::class;
+        $web_link=url('user/transactionDetail/');
+           $deep_link = [
+         'target'=>'transactionDetail',
+         'parameter'=>[
+            'trx_id'=> $from_account_transaction->trx_id
+         ]
+        ];
+
+        Notification::send([$from_account], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link,$deep_link));
+
+        // to
+        $title = "E-money Received!";
+        $message='Your wallet received ' . $amount . 'MMK From' . $from_account->name ;
+        $sourceable_id=$to_account_transaction->id;
+        $sourceable_type=Transaction::class;
+        $web_link=url('user/transactionDetail/');
+           $deep_link = [
+         'target'=>'transactionDetail',
+         'parameter'=>[
+            'trx_id'=> $to_account_transaction->trx_id
+         ]
+        ];
+
+        Notification::send([$to_account], new GeneralNotification($title,$message,$sourceable_id,$sourceable_type,$web_link,$deep_link));
+
+
+
+        DB::commit();
+
+        return success('Successfully Transfer', [
+            'trx_id'=> $from_account_transaction->trx_id
+        ]);
+
+        }catch(\Exception $error){
+            DB::rollback();
+            return fail('Someting Went Wrong' . $error->getMessage(), null);
+        }
+
+}
+
 }
