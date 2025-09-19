@@ -34,7 +34,10 @@ class PageController extends Controller
 
     $transactions= $transactions->paginate(5);
 
-    $data = TransactionResource::collection($transactions);
-    return success('success',$data);
+    $data = TransactionResource::collection($transactions)->additional(['result'=>1,'message'=>'success']);
+
+    return $data;
+
+
     }
 }
