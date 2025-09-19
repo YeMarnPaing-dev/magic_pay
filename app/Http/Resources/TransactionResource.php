@@ -16,9 +16,9 @@ class TransactionResource extends JsonResource
     public function toArray(Request $request): array
     {
         if($this->type == 1){
-            $title = "From" . $this->source->name;
+            $title = "From" . ($this->source? $this->source->name : '');
         }elseif($this->type==2){
-             $title = "To" . $this->source->name;
+             $title = "To" . ($this->source? $this->source->name : '');
         }
         return [
          'trx_id'=> $this->trx_id,
