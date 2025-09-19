@@ -32,7 +32,7 @@ class PageController extends Controller
         $transactions = $transactions->where('type' , $request->type);
     }
 
-    $transactions= $transactions->get();
+    $transactions= $transactions->paginate(5);
 
     $data = TransactionResource::collection($transactions);
     return success('success',$data);
