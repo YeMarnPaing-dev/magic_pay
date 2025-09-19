@@ -133,11 +133,11 @@ class PageController extends Controller
 
     // Success response
     return success('success', [
-        'from_account_name'  => $authUser->name,
-        'from_account_phone' => $authUser->phone,
+        'from_name'  => $authUser->name,
+        'from_phone' => $authUser->phone,
 
-        'to_account_name'    => $to_account->name,
-        'to_account_phone'   => $to_account->phone,
+        'to_name'    => $to_account->name,
+        'to_phone'   => $to_account->phone,
 
         'amount'             => $amount,
         'description'        => $description,
