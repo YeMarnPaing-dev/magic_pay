@@ -13,6 +13,8 @@ Route::namespace('Api')->group(function(){
     Route::middleware('auth:api')->group(function(){
     Route::get('profile',[PageController::class,'profile']);
      Route::post('logout',[AuthController::class,'logout']);
+     Route::get('transaction',[PageController::class,'transaction']);
+      Route::get('transaction/{trx_id}',[PageController::class,'transaction_detail']);
     });
 
 
