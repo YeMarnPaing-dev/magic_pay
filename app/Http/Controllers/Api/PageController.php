@@ -6,7 +6,9 @@ use App\Models\User;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\DetailResource;
+use App\Http\Requests\TransferValidate;
 use App\Http\Resources\ProfileResource;
 use App\Http\Resources\NotiDetailResource;
 use App\Http\Resources\TransactionResource;
@@ -87,4 +89,60 @@ class PageController extends Controller
         }
         return fail('Invalid data', null);
     }
+
+   public function transferConfirm(TransferValidate $request)
+{
+    $authUser = Auth::user();
+
+    $to_phone    = $request->to_phone;
+    $amount      = $request->amount;
+    $description = $request->description ?? '';
+    $hash_value  = $request->hash_value;
+
+
+    $str = $to_phone . $amount . $description;
+    $hash_value2 = hash_hmac('sha256', $str,'yemarnpay123#1234');
+
+    if ($hash_value !== $hash_value2) {
+        return fail('Hash value mismatch: The given data is invalid', null);
+    }
+
+    if ($authUser->phone == $to_phone) {
+        return fail('You cannot transfer to your own account', null);
+    }
+
+
+    $to_account = User::with('wallet')->where('phone', $to_phone)->first();
+    if (!$to_account) {
+        return fail('Recipient account not found', null);
+    }
+
+
+    if (!$authUser->wallet) {
+        return fail('Your wallet is not set up', null);
+    }
+
+
+    if (!$to_account->wallet) {
+        return fail('Recipient wallet is not set up', null);
+    }
+
+    if ($authUser->wallet->amount < $amount) {
+        return fail('Insufficient balance', null);
+    }
+
+    // Success response
+    return success('success', [
+        'from_account_name'  => $authUser->name,
+        'from_account_phone' => $authUser->phone,
+
+        'to_account_name'    => $to_account->name,
+        'to_account_phone'   => $to_account->phone,
+
+        'amount'             => $amount,
+        'description'        => $description,
+        'hash_value'         => $hash_value,
+    ]);
+}
+
 }

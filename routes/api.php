@@ -20,6 +20,7 @@ Route::namespace('Api')->group(function(){
       Route::get('notification/{id}',[PageController::class,'noti_detail']);
 
       Route::get('to-account-verify',[PageController::class,'to_account_verify']);
+      Route::get('transfer/Confirm',[PageController::class,'transferConfirm']);
     });
 
 
