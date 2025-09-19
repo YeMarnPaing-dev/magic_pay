@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\User;
+use App\Models\Wallet;
 use Illuminate\Http\Request;
+use App\Helpers\UUIDGenerate;
 use App\Http\Requests\StoreUser;
 use Illuminate\Validation\Rules;
 use App\Http\Controllers\Controller;
@@ -31,6 +33,13 @@ $user->ip = $request->ip();
 $user->user_agent = $request->server('HTTP_USER_AGENT');
 $user->save();
 
+  Wallet::firstOrCreate(
+            ['user_id' => $admin_user->id],
+            [
+                'account_number' => UUIDGenerate::accountNumber(),
+                'amount'=>0, ]
+            );
+
 
         $token = $user->createToken('Magic Pay Token')->accessToken;
 
@@ -46,6 +55,16 @@ $user->save();
 
         if(Auth::attempt(['email'=>$request->email,'password'=>$request->password])){
             $user = auth()->user();
+            $user->ip = $request->ip();
+            $user->user_agent = $request->server('HTTP_USER_AGENT');
+            $user->update();
+
+              Wallet::firstOrCreate(
+            ['user_id' => $user->id],
+            [
+                'account_number' => UUIDGenerate::accountNumber(),
+                'amount'=>0, ]
+            );
              $token = $user->createToken('Magic Pay Token')->accessToken;
                return success('SuccessFully Login',['token'=> $token]);
         }

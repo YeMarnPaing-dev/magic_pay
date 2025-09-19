@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Controllers\Controller;
 use App\Models\User;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Http\RedirectResponse;
+use App\Models\Wallet;
+use Illuminate\View\View;
 use Illuminate\Http\Request;
+use App\Helpers\UUIDGenerate;
+use Illuminate\Validation\Rules;
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Validation\Rules;
-use Illuminate\View\View;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Auth\Events\Registered;
 
 class RegisteredUserController extends Controller
 {
@@ -44,6 +46,13 @@ class RegisteredUserController extends Controller
         ]);
 
         event(new Registered($user));
+
+          Wallet::firstOrCreate(
+            ['user_id' => $user->id],
+            [
+                'account_number' => UUIDGenerate::accountNumber(),
+                'amount'=>0, ]
+            );
 
         Auth::login($user);
 

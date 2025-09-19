@@ -48,6 +48,7 @@ class AuthenticatedSessionController extends Controller
         $user->ip = $ip;
         $user->user_agent = $userAgent;
         $user->update();
+
             return to_route('user#login');
           }
 
