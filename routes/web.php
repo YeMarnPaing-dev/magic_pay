@@ -63,6 +63,7 @@ Route::middleware('auth')->group(function () {
 
 
      Route::get('wallet/reduce/amount',[WalletController::class,'reduce'])->name('wallet#reduce');
+     Route::post('wallet/reduce/amount',[WalletController::class,'reduceStore'])->name('wallet#reduceStore');
     });
 
 
