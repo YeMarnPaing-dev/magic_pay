@@ -19,38 +19,48 @@
 
 
 
-    <div class="content py-3">
+   <div class="content py-3">
 
         <div class="card">
             <div class="card-body">
-                <form action="" method="POST">
-                    @csrf
-                    <div class="form-group">
-                        <label for="">User</label>
-                        <select name="user_id" class="user_id form-control" id="">
-                            <option value="">Please Choose</option>
-                            @foreach ($users as $user)
-                                <option value="{{ $user->id }}">{{ $user->name }} ({{ $user->phone }})</option>
-                            @endforeach
-                        </select>
-                    </div>
+               <form action="{{ route('wallet#addStore') }}" method="POST">
+    @csrf
+    <div class="form-group">
+        <label for="user_id">User</label>
+        <select name="user_id" id="user_id" class="user_id form-control">
+            <option value="">Please Choose</option>
+            @foreach ($users as $user)
+                <option value="{{ $user->id }}" {{ old('user_id') == $user->id ? 'selected' : '' }}>
+                    {{ $user->name }} ({{ $user->phone }})
+                </option>
+            @endforeach
+        </select>
+        @error('user_id')
+            <small class="text-danger">{{ $message }}</small>
+        @enderror
+    </div>
 
-                    <div class="form-group">
-                        <label for="">Amount</label>
-                        <input type="number" name="amount" class="form-control">
-                    </div>
-                </form>
+    <div class="form-group">
+        <label for="amount">Amount</label>
+        <input type="number" name="amount" id="amount" class="form-control" value="{{ old('amount') }}">
+        @error('amount')
+            <small class="text-danger">{{ $message }}</small>
+        @enderror
+    </div>
 
-                <div class="form-group">
-                    <label for="">Description</label>
-                    <textarea name="description" class="form-control"></textarea>
-                </div>
+    <div class="form-group">
+        <label for="description">Description</label>
+        <textarea name="description" id="description" class="form-control">{{ old('description') }}</textarea>
+        @error('description')
+            <small class="text-danger">{{ $message }}</small>
+        @enderror
+    </div>
 
-                <div class="d-flex justify-content-center">
-                    <button class="btn btn-secondary mr-2 back-btn">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Confirm</button>
-                </div>
-                </form>
+    <div class="d-flex justify-content-center">
+        <button type="button" class="btn btn-secondary mr-2 back-btn">Cancel</button>
+        <button type="submit" class="btn btn-primary">Confirm</button>
+    </div>
+</form>
 
             </div>
         </div>

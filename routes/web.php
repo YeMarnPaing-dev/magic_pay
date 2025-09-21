@@ -59,6 +59,9 @@ Route::middleware('auth')->group(function () {
     Route::get('wallet',[WalletController::class,'index'])->name('wallet.index');
     Route::get('wallet/datatable/ssd',[WalletController::class,'ssd']);
     Route::get('wallet/add/amount',[WalletController::class,'add'])->name('wallet#add');
+    Route::post('wallet/add/amount',[WalletController::class,'addStore'])->name('wallet#addStore');
+
+
      Route::get('wallet/reduce/amount',[WalletController::class,'reduce'])->name('wallet#reduce');
     });
 
