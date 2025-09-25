@@ -8,12 +8,16 @@ use App\Http\Controllers\WalletController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\PageController;
+use App\Http\Controllers\SocialLoginController;
 use App\Http\Controllers\UserProfileController;
 use App\Http\Controllers\NotificationController;
 
 Route::get('/', function () {
     return view('auth.login');
 })->middleware('guest');
+
+Route::get('auth/{provider}/redirect', [SocialLoginController::class, 'redirect'])->name('social#redirect');
+Route::get('auth/{provider}/callback', [SocialLoginController::class, 'callback'])->name('social#callback');
 
 
  Route::group(['prefix'=>'user','middleware'=>'usermiddleware'],function(){
