@@ -20,6 +20,7 @@ Route::get('auth/{provider}/redirect', [SocialLoginController::class, 'redirect'
 Route::get('auth/{provider}/callback', [SocialLoginController::class, 'callback'])->name('social#callback');
 
 
+
  Route::group(['prefix'=>'user','middleware'=>'usermiddleware'],function(){
     Route::get('user',[LoginController::class,'user'])->name('user#login');
     Route::get('profile',[UserProfileController::class,'profile'])->name('profile#user');
