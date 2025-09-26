@@ -16,8 +16,8 @@ Route::get('/', function () {
     return view('auth.login');
 })->middleware('guest');
 
-Route::get('auth/{provider}/redirect', [SocialLoginController::class, 'redirect'])->name('social#redirect');
-Route::get('auth/{provider}/callback', [SocialLoginController::class, 'callback'])->name('social#callback');
+Route::get('/auth/{provider}/redirect', [SocialLoginController::class, 'redirect'])->name('social#redirect');
+Route::get('/auth/{provider}/callback', [SocialLoginController::class, 'callback'])->name('social#callback');
 
 
 

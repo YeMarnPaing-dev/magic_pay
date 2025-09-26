@@ -10,12 +10,13 @@ use Laravel\Socialite\Facades\Socialite;
 class SocialLoginController extends Controller
 {
     public function redirect($provider){
+        // dd($provider);
         return Socialite::driver($provider)->redirect();
     }
 
     public function callback($provider){
          $data = Socialite::driver($provider)->user();
-        //  dd($data->toArray());
+         dd($data->toArray());
 
     // $user = User::updateOrCreate([
     //     'github_id' => $githubUser->id,
