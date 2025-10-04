@@ -53,7 +53,7 @@ class PageController extends Controller
     }
 
     public function transaction_detail($trx_id){
-        $authUser = auth()->user();
+     $authUser = auth()->user();
      $transactions = Transaction::with('user', 'source')->where('user_id',$authUser->id)->where('trx_id',$trx_id)->firstorFail();
 
      $data = new DetailResource($transactions);
