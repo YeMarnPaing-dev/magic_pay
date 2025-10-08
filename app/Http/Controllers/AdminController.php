@@ -14,7 +14,19 @@ use Yajra\DataTables\Facades\DataTables;
 class AdminController extends Controller
 {
      public function admin(){
-        return view('admin.admin');
+    $user = User::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+    ->groupBy('month')
+    ->pluck('count', 'month')
+    ->toArray();
+
+$userlabels = [];
+$userdata = [];
+for ($m = 1; $m <= 12; $m++) {
+    $userlabels[] = date("F", mktime(0, 0, 0, $m, 1));
+    $userdata[] = $user[$m] ?? 0;
+}
+
+        return view('admin.admin',compact('userlabels','userdata'));
     }
 
     public function index(){

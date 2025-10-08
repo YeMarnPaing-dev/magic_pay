@@ -30,6 +30,31 @@
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
+  const contactCtx = document.getElementById('userChart').getContext('2d');
 
+  const contactData = {
+      labels: {!! json_encode($userlabels) !!},
+      datasets: [{
+          label: 'User per Month',
+          data: {!! json_encode($userdata) !!},
+          fill: false,
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1
+      }]
+  };
+
+  new Chart(contactCtx, {
+      type: 'line',
+      data: contactData,
+      options: {
+          responsive: true,
+          scales: {
+              y: {
+                  beginAtZero: true,
+                  ticks: { stepSize: 1 }
+              }
+          }
+      }
+  });
 </script>
 @endsection
