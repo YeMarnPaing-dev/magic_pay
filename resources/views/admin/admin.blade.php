@@ -16,5 +16,18 @@
                         </div>
 
 
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-6"><canvas id="userChart" width="200" height="100"></canvas></div>
+                                <div class="col-6"></div>
+                            </div>
+                        </div>
 
+
+
+@endsection
+
+@section('script')
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script></script>
 @endsection
