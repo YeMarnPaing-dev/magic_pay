@@ -22,7 +22,7 @@
                                 <div class="col-6"><canvas id="walletChart" width="200" height="100"></canvas></div>
                             </div>
                             <div>
-                                <canvas id="transactionChart" width="200" height="100"></canvas>
+                                <canvas id="transactionChart" width="500" height="500" style="display:block;margin:auto;"></canvas>
                             </div>
                         </div>
 
@@ -115,7 +115,7 @@
                 },
                 title: {
                     display: true,
-                    text: 'Wallet Transactions (Approved vs Pending)',
+                    text: 'Wallet Transactions (Income vs Expense)',
                     font: { size: 16 }
                 }
             }
