@@ -30,12 +30,13 @@
 @section('script')
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-  const contactCtx = document.getElementById('userChart').getContext('2d');
+  // === User Chart ===
+  const userCtx = document.getElementById('userChart').getContext('2d');
 
-  const contactData = {
+  const userData = {
       labels: {!! json_encode($userlabels) !!},
       datasets: [{
-          label: 'User per Month',
+          label: 'Users per Month',
           data: {!! json_encode($userdata) !!},
           fill: false,
           borderColor: 'rgb(75, 192, 192)',
@@ -43,9 +44,9 @@
       }]
   };
 
-  new Chart(contactCtx, {
+  new Chart(userCtx, {
       type: 'line',
-      data: contactData,
+      data: userData,
       options: {
           responsive: true,
           scales: {
@@ -57,7 +58,8 @@
       }
   });
 
-    const walletCtx = document.getElementById('walletChart').getContext('2d');
+  // === Wallet Chart ===
+  const walletCtx = document.getElementById('walletChart').getContext('2d');
 
   const walletData = {
       labels: {!! json_encode($walletlabels) !!},
@@ -65,12 +67,12 @@
           label: 'Wallet per Month',
           data: {!! json_encode($walletdata) !!},
           fill: false,
-          borderColor: 'rgb(75, 192, 192)',
+          borderColor: 'rgb(153, 102, 255)',
           tension: 0.1
       }]
   };
 
-  new walletChart(walletCtx, {
+  new Chart(walletCtx, {
       type: 'line',
       data: walletData,
       options: {
