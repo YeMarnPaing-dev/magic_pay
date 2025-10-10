@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
+use App\Models\Wallet;
 use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -26,7 +27,19 @@ for ($m = 1; $m <= 12; $m++) {
     $userdata[] = $user[$m] ?? 0;
 }
 
-        return view('admin.admin',compact('userlabels','userdata'));
+ $wallet = Wallet::selectRaw('MONTH(created_at) as month, COUNT(*) as count')
+    ->groupBy('month')
+    ->pluck('count', 'month')
+    ->toArray();
+
+$walletlabels = [];
+$walletdata = [];
+for ($m = 1; $m <= 12; $m++) {
+    $walletlabels[] = date("F", mktime(0, 0, 0, $m, 1));
+    $walletdata[] = $wallet[$m] ?? 0;
+}
+
+        return view('admin.admin',compact('userlabels','userdata','walletlabels','walletdata'));
     }
 
     public function index(){

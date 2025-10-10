@@ -56,5 +56,32 @@
           }
       }
   });
+
+    const walletCtx = document.getElementById('walletChart').getContext('2d');
+
+  const walletData = {
+      labels: {!! json_encode($walletlabels) !!},
+      datasets: [{
+          label: 'Wallet per Month',
+          data: {!! json_encode($walletdata) !!},
+          fill: false,
+          borderColor: 'rgb(75, 192, 192)',
+          tension: 0.1
+      }]
+  };
+
+  new walletChart(walletCtx, {
+      type: 'line',
+      data: walletData,
+      options: {
+          responsive: true,
+          scales: {
+              y: {
+                  beginAtZero: true,
+                  ticks: { stepSize: 1 }
+              }
+          }
+      }
+  });
 </script>
 @endsection
