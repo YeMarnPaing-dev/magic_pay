@@ -53,11 +53,11 @@ $transaction = Transaction::selectRaw('type, COUNT(*) as count')
     ];
 
     // Build arrays
-    $transactionlabels = [];
+    $trxlabels = [];
     $transactiondata = [];
 
-    foreach ($transactionlabels as $type => $transactionlabels) {
-        $transactionlabels[] = $transactionlabels;
+    foreach ($transactionlabels as $type => $trxlabels) {
+        $trxlabels[] = $transactionlabels;
         $transactiondata[] = $transaction[$type] ?? 0;
     }
 
