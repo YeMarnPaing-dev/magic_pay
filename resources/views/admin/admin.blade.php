@@ -21,6 +21,9 @@
                                 <div class="col-6"><canvas id="userChart" width="200" height="100"></canvas></div>
                                 <div class="col-6"><canvas id="walletChart" width="200" height="100"></canvas></div>
                             </div>
+                            <div>
+                                <canvas id="transactionChart" width="200" height="100"></canvas>
+                            </div>
                         </div>
 
 
