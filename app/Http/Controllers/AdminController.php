@@ -41,27 +41,28 @@ for ($m = 1; $m <= 12; $m++) {
 }
 
 $transaction = Transaction::selectRaw('type, COUNT(*) as count')
-        ->whereIn('type', [1, 2])
-        ->groupBy('type')
-        ->pluck('count', 'type')
-        ->toArray();
+    ->whereIn('type', [1, 2])
+    ->groupBy('type')
+    ->pluck('count', 'type')
+    ->toArray();
 
-    // Labels for statuses
-    $transactionlabels = [
-        1 => 'Income',
-        2 => 'Expense'
-    ];
+// Labels for transaction types
+$transactionlabels = [
+    1 => 'Income',
+    2 => 'Expense'
+];
 
-    // Build arrays
-    $trxlabels = [];
-    $transactiondata = [];
+// Build arrays for Chart.js
+$trxlabels = [];
+$transactiondata = [];
 
-    foreach ($transactionlabels as $type => $trxlabels) {
-        $trxlabels[] = $transactionlabels;
-        $transactiondata[] = $transaction[$type] ?? 0;
-    }
+foreach ($transactionlabels as $type => $label) {
+    $trxlabels[] = $label; // ✅ push label text
+    $transactiondata[] = $transaction[$type] ?? 0; // ✅ push count or 0 if missing
+}
 
-        return view('admin.admin',compact('userlabels','userdata','walletlabels','walletdata','transactionlabels','transactiondata'));
+
+        return view('admin.admin',compact('userlabels','userdata','walletlabels','walletdata','trxlabels','transactiondata'));
     }
 
     public function index(){

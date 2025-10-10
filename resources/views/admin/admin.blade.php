@@ -88,5 +88,38 @@
           }
       }
   });
+
+   const transactionCtx = document.getElementById('transactionChart').getContext('2d');
+
+    const data = {
+        labels: {!! json_encode($trxlabels) !!},
+        datasets: [{
+            label: 'Transactions by Status',
+            data: {!! json_encode($transactiondata) !!},
+            backgroundColor: [
+                'rgb(75, 192, 192)',   // Approved
+                'rgb(255, 205, 86)'    // Pending
+            ],
+            hoverOffset: 10
+        }]
+    };
+
+    new Chart(transactionCtx, {
+        type: 'doughnut', // or 'pie'
+        data: data,
+        options: {
+            responsive: true,
+            plugins: {
+                legend: {
+                    position: 'bottom',
+                },
+                title: {
+                    display: true,
+                    text: 'Wallet Transactions (Approved vs Pending)',
+                    font: { size: 16 }
+                }
+            }
+        }
+    });
 </script>
 @endsection
