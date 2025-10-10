@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\User;
 use App\Models\Wallet;
+use App\Models\Transaction;
 use Jenssegers\Agent\Agent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -39,7 +40,28 @@ for ($m = 1; $m <= 12; $m++) {
     $walletdata[] = $wallet[$m] ?? 0;
 }
 
-        return view('admin.admin',compact('userlabels','userdata','walletlabels','walletdata'));
+$transaction = Transaction::selectRaw('type, COUNT(*) as count')
+        ->whereIn('type', [1, 2])
+        ->groupBy('type')
+        ->pluck('count', 'type')
+        ->toArray();
+
+    // Labels for statuses
+    $transactionlabels = [
+        1 => 'Income',
+        2 => 'Expense'
+    ];
+
+    // Build arrays
+    $transactionlabels = [];
+    $transactiondata = [];
+
+    foreach ($transactionlabels as $type => $transactionlabels) {
+        $transactionlabels[] = $transactionlabels;
+        $transactiondata[] = $transaction[$type] ?? 0;
+    }
+
+        return view('admin.admin',compact('userlabels','userdata','walletlabels','walletdata','transactionlabels','transactiondata'));
     }
 
     public function index(){
